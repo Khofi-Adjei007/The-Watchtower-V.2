@@ -901,8 +901,8 @@ select {
   margin-right: 0.5rem;
 }
 
-.mr-6 {
-  margin-right: 1.5rem;
+.mr-3 {
+  margin-right: 0.75rem;
 }
 
 .mt-1 {
@@ -929,8 +929,8 @@ select {
   margin-top: 2rem;
 }
 
-.mr-3 {
-  margin-right: 0.75rem;
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .block {
@@ -981,12 +981,24 @@ select {
   height: 100vh;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
+.h-36 {
+  height: 9rem;
+}
+
 .min-h-10 {
   min-height: 2.5rem;
 }
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-2\/5 {
@@ -999,6 +1011,10 @@ select {
 
 .w-4 {
   width: 1rem;
+}
+
+.w-4\/5 {
+  width: 80%;
 }
 
 .w-6 {
@@ -1041,8 +1057,16 @@ select {
   width: 100%;
 }
 
-.w-4\/5 {
-  width: 80%;
+.w-24 {
+  width: 6rem;
+}
+
+.w-36 {
+  width: 9rem;
+}
+
+.w-44 {
+  width: 11rem;
 }
 
 .max-w-7xl {
@@ -1132,11 +1156,6 @@ select {
   border-color: rgb(156 163 175 / var(--tw-divide-opacity));
 }
 
-.divide-slate-700 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1;
-  border-color: rgb(51 65 85 / var(--tw-divide-opacity));
-}
-
 .rounded {
   border-radius: 0.25rem;
 }
@@ -1166,10 +1185,6 @@ select {
   border-width: 0px;
 }
 
-.border-4 {
-  border-width: 4px;
-}
-
 .border-b {
   border-bottom-width: 1px;
 }
@@ -1180,6 +1195,10 @@ select {
 
 .border-b-4 {
   border-bottom-width: 4px;
+}
+
+.border-b-8 {
+  border-bottom-width: 8px;
 }
 
 .border-l-8 {
@@ -1209,6 +1228,11 @@ select {
 .border-gray-400 {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
+}
+
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity));
 }
 
 .bg-blue-500 {
@@ -1244,6 +1268,11 @@ select {
 .bg-gray-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+}
+
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
 
 .bg-white {
@@ -1344,12 +1373,20 @@ select {
   padding-inline-start: 0.75rem;
 }
 
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
 .text-left {
   text-align: left;
 }
 
 .text-center {
   text-align: center;
+}
+
+.text-right {
+  text-align: right;
 }
 
 .font-sans {
@@ -1445,9 +1482,9 @@ select {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-gray-600 {
+.text-red-600 {
   --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity));
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .opacity-0 {
