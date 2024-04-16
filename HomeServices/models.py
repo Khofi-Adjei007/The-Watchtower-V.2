@@ -8,10 +8,10 @@ class portalUsers(models.Model):
 
 
 class officer_registrations(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.CharField(max_length=14)
     first_name = models.CharField(max_length=250, default='')
+    middle_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250, default='')
+    email = models.CharField(max_length=14)
     password = models.CharField(max_length=10, default='')
     password_two = models.CharField(max_length=10, default='')
 
