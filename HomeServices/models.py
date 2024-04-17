@@ -19,7 +19,7 @@ class officer_registrations(models.Model):
     officer_current_station = models.CharField(max_length=24)
     officer_staff_ID = models.CharField(max_length=12)
     officer_qualification = models.CharField(max_length=9)
-    officer_dateofbirth = models.DateField()
+    officer_date_of_birth = models.DateField()
     officer_place_of_operations = models.CharField(max_length=24)
     officer_department_of_operations = models.CharField(max_length=16)
     officer_image = models.ImageField(upload_to='')
