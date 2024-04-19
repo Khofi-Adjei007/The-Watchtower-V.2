@@ -30,9 +30,16 @@ def officer_registrations(request):
 
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
+            first_name = form.cleaned_data('first_name')
+
+
+
+            officer_staff_ID = form.cleaned_data['officer_staff_ID']
+            # Additional processing with the cleaned data
+            if len(officer_staff_ID) < 6:
+                error_message = "Staff ID must be at least 6 characters long."
+                return render(request, 'officerRegistrationsForms.html', {'form': form, 'error_message': error_message})
+            
             return render(request, 'officer_login.html')
 
     # if a GET (or any other method) we'll create a blank form

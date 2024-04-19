@@ -9,7 +9,7 @@ import re
 
 # Forms and Authentications goes here
 class officerRegistrationsForms(forms.Form):
-    first_name = forms.CharField(label="first_name", max_length=100)
+    first_name = forms.CharField(label="Enter first Name", max_length=100)
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
         if not first_name:
@@ -55,7 +55,7 @@ class officerRegistrationsForms(forms.Form):
     
     officer_qualification = forms.CharField(max_length=9)
     officer_dateofbirth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    officer_place_of_operations = forms.CharField(max_length=24)
+    officer_place_of_operations = forms.CharField(label="Officer Operations Area", max_length=24)
     officer_department_of_operations = forms.CharField(max_length=16)
     officer_image = forms.ImageField()
     
