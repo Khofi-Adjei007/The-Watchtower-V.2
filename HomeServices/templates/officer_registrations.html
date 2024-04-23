@@ -30,8 +30,8 @@
                     
                     {% for field in form %}
                     <div>
-                        {% for error_message in error_message%}
-                        <p class="text-red-500 error-message hidden">{{ error_message }}</p>
+                        {% for message in message %}
+                        <p class="text-red-500 error-message ">{{ message }}</p>
                         {% endfor %}
                         
                         <label for="{{ field.name }}" class="block text-gray-700">{{ field.name }}<span class="text-red-700 ml-1">*</span></label>                       

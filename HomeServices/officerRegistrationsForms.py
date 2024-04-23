@@ -9,7 +9,9 @@ import re
 
 # Forms and Authentications goes here
 class officerRegistrationsForms(forms.Form):
-    first_name = forms.CharField(label="Enter first Name", max_length=100)
+    first_name = forms.CharField(label="Enter first Name", max_length=100,
+                                 error_messages={'required': 'First Name is Required .',
+                                                    'invalid': 'Name is Invalid.'})
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
         if not first_name:
@@ -76,5 +78,7 @@ class officerRegistrationsForms(forms.Form):
         return password_two
 
 
-class officer_login(forms.Form):
+class officer_loginForms(forms.Form):
+    user_name = forms.CharField(label="Enter Username (Staff_ID)",max_length=16)
+    password = forms.CharField(label="Enter Password",max_length=12)
     pass

@@ -6,12 +6,12 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
-from .models import officer_registrations
+from .models import officer_registrations,officer_login
 from django.contrib import messages
+from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth.models import User, auth
 import string
-from django.contrib.auth.models import User
-from .officerRegistrationsForms import officerRegistrationsForms
+from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 
 
 # Create your views here.
@@ -35,7 +35,6 @@ def officer_registrations(request):
 
 
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
-            # Additional processing with the cleaned data
             if len(officer_staff_ID) < 6:
                 error_message = "Staff ID must be at least 6 characters long."
                 return render(request, 'officerRegistrationsForms.html', {'form': form, 'error_message': error_message})
@@ -51,7 +50,26 @@ def officer_registrations(request):
 
 
 def officer_login(request):
-    return render(request, 'officer_login.html')
+    if request.method == 'POST':
+        forms = officer_loginForms(request.POST)
+        username = request.POST.get('username')
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+    
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+                return redirect('officer_login')
+        else:
+            for field, errors in forms.erros.items():
+                for error in errors:
+                    messages.error(request, f"{field}:{error}")
+            messages.error(request,'username or password not correct')
+            return redirect('/')
+    
+    else:
+        forms = officer_loginForms(request)
+    return render(request, 'officer_login.html', {'form': forms})
 
 
 def submissionpdf(request):
