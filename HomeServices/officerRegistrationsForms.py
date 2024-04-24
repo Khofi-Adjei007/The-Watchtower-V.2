@@ -37,7 +37,7 @@ class officerRegistrationsForms(forms.Form):
     
     email = forms.CharField(max_length=14)
 
-    phone_contact = forms.IntegerField()
+    phone_contact = forms.CharField()
     def clean_phone_contact(self):
         phone_contact = self.cleaned_data.get('phone_contact')
         if not re.match(r'^\+?1?\d{9,15}$', phone_contact):

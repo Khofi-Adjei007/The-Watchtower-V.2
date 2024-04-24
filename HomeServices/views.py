@@ -30,11 +30,28 @@ def officer_registrations(request):
 
         # check whether it's valid:
         if form.is_valid():
+            officer_first_name = form.cleaned_data['first_name']
+            officer_middle_name = form.cleaned_data['middle_name']
+            officer_last_name = form.cleaned_data['last_name']
+            officer_email = form.cleaned_data['email']
+            officer_phone_contact = form.cleaned_data['phone_contact']
+            officer_address  = form.cleaned_data[' officer_address ']
+            officer_address  = form.cleaned_data[' officer_address ']
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
-            if len(officer_staff_ID) < 6:
-                error_message = "Staff ID must be at least 6 characters long."
-                return render(request, 'officerRegistrationsForms.html', {'form': form, 'error_message': error_message})
-            return render(request, 'officer_login.html')
+            officer_qualification  = form.cleaned_data[' officer_qualification ']
+            officer_dateofbirth = form.cleaned_data[' officer_dateofbirth ']
+            officer_place_of_operations  = form.cleaned_data[' officer_place_of_operations ']
+            officer_image  = form.cleaned_data['officer_image ']
+            
+
+            new_officer = officer_registrations.objects.create(first_name=officer_first_name,middle_name=officer_middle_name,
+                                                               officer_last_name=officer_last_name,email=officer_email, phone_contact=officer_phone_contact,
+                                                               officer_address=officer_address, officer_staff_ID=officer_staff_ID,
+                                                               officer_qualification=officer_qualification, officer_dateofbirth=officer_dateofbirth,
+                                                               officer_place_of_operations=officer_place_of_operations,
+                                                               officer_image=officer_image)
+            new_officer.save()
+            return render(request, 'officer_account_page.html')
 
     # if a GET (or any other method) we'll create a blank form
     else:
