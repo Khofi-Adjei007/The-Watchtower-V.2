@@ -18,7 +18,7 @@ class officer_registrations(models.Model):
     officer_place_of_operations = models.CharField(max_length=24)
     officer_department_of_operations = models.CharField(max_length=16)
     officer_image = models.ImageField(upload_to='')
-    password = models.CharField(max_length=10, default='')
+    password = models.CharField(max_length=250, default='')
 
 
 class officer_login(models.Model):

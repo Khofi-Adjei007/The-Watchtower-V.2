@@ -35,12 +35,13 @@ def officer_registrations(request):
             officer_last_name = form.cleaned_data['last_name']
             officer_email = form.cleaned_data['email']
             officer_phone_contact = form.cleaned_data['phone_contact']
-            officer_address  = form.cleaned_data[' officer_address ']
+            officer_address  = form.cleaned_data['officer_address']
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
             officer_qualification  = form.cleaned_data[' officer_qualification ']
             officer_dateofbirth = form.cleaned_data[' officer_dateofbirth ']
             officer_place_of_operations  = form.cleaned_data[' officer_place_of_operations ']
-            officer_image  = form.cleaned_data['officer_image ']
+            officer_image  = form.cleaned_data[' officer_image ']
+            officer_password  = form.cleaned_data[' password ']
             
 
             new_officer = officer_registrations.objects.create(first_name=officer_first_name,middle_name=officer_middle_name,
@@ -48,7 +49,7 @@ def officer_registrations(request):
                                                                officer_address=officer_address, officer_staff_ID=officer_staff_ID,
                                                                officer_qualification=officer_qualification, officer_dateofbirth=officer_dateofbirth,
                                                                officer_place_of_operations=officer_place_of_operations,
-                                                               officer_image=officer_image)
+                                                               officer_image=officer_image,officer_password=officer_password)
             new_officer.save()
             return render(request, 'oofficer_login/')
 

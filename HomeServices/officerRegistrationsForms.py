@@ -57,6 +57,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid phone number."))
         return phone_contact
 
+
     officer_address = forms.CharField(max_length=250,
                                       error_messages={'required': 'Address is Required .',
                                                         'invalid': 'Name is Invalid.'})
@@ -89,7 +90,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError('Image is required')
         return officer_image
     
-    password = forms.CharField(max_length=250, widget=forms.PasswordInput)
+    password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
     def clean_password(self):
         password = self.cleaned_data.get('password')
         if len(password) < 8:
@@ -97,13 +98,13 @@ class officerRegistrationsForms(forms.Form):
         return password
 
 
-    password_two = forms.CharField(max_length=250, widget=forms.PasswordInput)
-    def clean_password_two(self):
+    confirm_password = forms.CharField(label="Confirm Password", max_length=250, widget=forms.PasswordInput)
+    def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
-        password_two = self.cleaned_data.get('password_two')
-        if password and password_two and password != password_two:
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password and confirm_password and password != confirm_password:
             raise forms.ValidationError(_("The passwords do not match."))
-        return password_two
+        return confirm_password
 
 
 class officer_loginForms(forms.Form):
