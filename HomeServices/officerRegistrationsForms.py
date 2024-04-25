@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from .models import officer_registrations
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -9,6 +10,11 @@ import re
 
 # Forms and Authentications goes here
 class officerRegistrationsForms(forms.Form):
+
+    class Meta:
+        model = officer_registrations
+        fields = '__all__'
+
     first_name = forms.CharField(label="Enter first Name", max_length=100,
                                  error_messages={'required': 'First Name is Required .',
                                                     'invalid': 'Name is Invalid.'})
@@ -21,21 +27,28 @@ class officerRegistrationsForms(forms.Form):
         return first_name
     
 
-    middle_name = forms.CharField(max_length=250)
+    middle_name = forms.CharField(max_length=250,)
     def clean_middle_name(self):
         middle_name = self.cleaned_data.get('middle_name')
         if middle_name and not re.match(r'^[a-zA-Z]*$', middle_name):
             raise forms.ValidationError(_("Enter a valid middle name."))
         return middle_name
     
-    last_name = forms.CharField(max_length=250)
+    last_name = forms.CharField(label="Enter last Name", max_length=250,
+                                error_messages={'required': 'Last Name is Required .',
+                                                    'invalid': 'Name is Invalid.'})
     def clean_last_name(self):
         last_name = self.cleaned_data.get('last_name')
         if last_name and not re.match(r'^[a-zA-Z]*$', last_name):
             raise forms.ValidationError(_("Enter a valid last name."))
         return last_name
     
-    email = forms.CharField(max_length=14)
+    email = forms.CharField(max_length=250)
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@example.com'):
+            raise forms.ValidationError("email must end with @example.com")
+        return email
 
     phone_contact = forms.CharField()
     def clean_phone_contact(self):
@@ -44,7 +57,16 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid phone number."))
         return phone_contact
 
-    officer_address = forms.CharField(max_length=250)
+    officer_address = forms.CharField(max_length=250,
+                                      error_messages={'required': 'Address is Required .',
+                                                        'invalid': 'Name is Invalid.'})
+    def clean_officer_address(self):
+        officer_address = self.cleaned_data.get('officer_address')
+        if not officer_address:
+            raise forms.ValidationError(_("Officer address cannot be empty."))
+            # Additional validation logic if needed
+        return officer_address
+
     officer_cuurent_rank = forms.CharField(max_length=24)
     officer_current_station = forms.CharField(max_length=24)
 
@@ -59,9 +81,15 @@ class officerRegistrationsForms(forms.Form):
     officer_dateofbirth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     officer_place_of_operations = forms.CharField(label="Officer Operations Area", max_length=24)
     officer_department_of_operations = forms.CharField(max_length=16)
+
     officer_image = forms.ImageField()
+    def clean_officer_image(self):
+        officer_image = self.cleaned_data.get('officer_image')
+        if not officer_image:
+            raise forms.ValidationError('Image is required')
+        return officer_image
     
-    password = forms.CharField(max_length=10, widget=forms.PasswordInput)
+    password = forms.CharField(max_length=250, widget=forms.PasswordInput)
     def clean_password(self):
         password = self.cleaned_data.get('password')
         if len(password) < 8:
@@ -69,7 +97,7 @@ class officerRegistrationsForms(forms.Form):
         return password
 
 
-    password_two = forms.CharField(max_length=10, widget=forms.PasswordInput)
+    password_two = forms.CharField(max_length=250, widget=forms.PasswordInput)
     def clean_password_two(self):
         password = self.cleaned_data.get('password')
         password_two = self.cleaned_data.get('password_two')
