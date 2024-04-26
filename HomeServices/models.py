@@ -12,11 +12,11 @@ class new_officer_registrations(models.Model):
     officer_address = models.CharField(max_length=250)
     officer_cuurent_rank = models.CharField(max_length=250)
     officer_current_station = models.CharField(max_length=250)
-    officer_staff_ID = models.CharField(max_length=12)
+    officer_staff_ID = models.CharField(max_length=250)
     officer_qualification = models.CharField(max_length=250)
     officer_date_of_birth = models.DateField()
     officer_place_of_operations = models.CharField(max_length=250)
-    officer_department_of_operations = models.CharField(max_length=24)
+    officer_department_of_operations = models.CharField(max_length=250)
     officer_image = models.ImageField(upload_to='')
     password = models.CharField(max_length=250, default='')
 

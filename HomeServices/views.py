@@ -31,13 +31,14 @@ def officer_registrations(request):
             officer_last_name = form.cleaned_data['last_name']
             officer_email = form.cleaned_data['email']
             officer_phone_contact = form.cleaned_data['phone_contact']
+            officer_address  = form.cleaned_data['officer_address']
             officer_address = form.cleaned_data['officer_address']
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
-            officer_qualification = form.cleaned_data['officer_qualification']
+            officer_qualification  = form.cleaned_data['officer_qualification']
             officer_date_of_birth = form.cleaned_data['officer_date_of_birth']
-            officer_place_of_operations = form.cleaned_data['officer_place_of_operations']
-            officer_image = form.cleaned_data['officer_image']
-            password = form.cleaned_data['password']
+            officer_place_of_operations  = form.cleaned_data['officer_place_of_operations']
+            officer_image  = form.cleaned_data['officer_image']
+            password  = form.cleaned_data['password']
             
             # Create a new instance of the model
             new_officer = new_officer_registrations.objects.create(
@@ -49,9 +50,10 @@ def officer_registrations(request):
                 officer_address=officer_address,
                 officer_staff_ID=officer_staff_ID,
                 officer_qualification=officer_qualification,
-                officer_date_of_birth= officer_date_of_birth,
+                officer_date_of_birth = officer_date_of_birth,
                 officer_place_of_operations=officer_place_of_operations,
                 officer_image=officer_image,
+                officer_password=officer_password,
                 password=password
             )
             # Save the new instance
