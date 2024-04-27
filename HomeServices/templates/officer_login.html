@@ -29,8 +29,9 @@
                     
                         {% for field in form %}
                         <div>
-                            {% for message in message %}
-                            <p class="text-red-500 error-message ">{{ message }}</p>
+                            
+                            {% for error in field.errors %}
+                            <p class="text-red-500 error-message ">{{ error }}</p>
                             {% endfor %}
                             
                             <label for="{{ field.name }}" class="block text-gray-700">{{ field.name }}<span class="text-red-700 ml-1 mb-3">*</span></label>                       

@@ -64,11 +64,11 @@ class officerRegistrationsForms(forms.Form):
     def clean_officer_address(self):
         officer_address = self.cleaned_data.get('officer_address')
         if not officer_address:
-            raise forms.ValidationError(_("Officer address cannot be empty."))
+            raise forms.ValidationError(_("Address cannot be empty."))
             # Additional validation logic if needed
         return officer_address
 
-    officer_cuurent_rank = forms.CharField(max_length=24)
+    officer_current_rank = forms.CharField(max_length=24)
     officer_current_station = forms.CharField(max_length=24)
 
     officer_staff_ID = forms.CharField(max_length=12)

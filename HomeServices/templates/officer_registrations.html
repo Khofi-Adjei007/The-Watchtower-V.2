@@ -54,5 +54,12 @@
 <script src="/static/js/functionalities.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="/static/js/functionalities.js"></script>
+<script>
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, "", window.location.href);
+    };
+</script>
+
 </body>
 </html>
