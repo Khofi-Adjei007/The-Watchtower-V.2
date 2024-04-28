@@ -7,7 +7,7 @@ class new_officer_registrations(models.Model):
     first_name = models.CharField(max_length=250, default='')
     middle_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250, default='')
-    email = models.CharField(max_length=250)
+    email = models.EmailField(max_length=250)
     phone_contact = models.IntegerField()
     officer_address = models.CharField(max_length=250)
     officer_current_rank = models.CharField(max_length=250)

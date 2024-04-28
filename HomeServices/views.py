@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
 from datetime import datetime
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -9,7 +10,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from .models import new_officer_registrations,officer_login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 
 
@@ -36,6 +37,7 @@ def officer_registrations(request):
             officer_image  = form.cleaned_data['officer_image']
             password  = form.cleaned_data['password']
             
+            hashed_password = make_password(password)
 
             # Create a new instance of the model
             new_officer = new_officer_registrations.objects.create(
@@ -53,7 +55,7 @@ def officer_registrations(request):
                 officer_current_station=officer_current_station,
                 officer_department_of_operations=officer_department_of_operations,
                 officer_image=officer_image,
-                password=password
+                password=hashed_password
             )
             # Save the new instance
             new_officer.save()

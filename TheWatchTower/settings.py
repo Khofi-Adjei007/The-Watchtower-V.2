@@ -23,6 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%^)6h(#q#zkyp=cf7ln-d$*$px*6nr!&2(@%i#z68tdkldb4uq'
 
+
+# Hash passwords before storing them
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

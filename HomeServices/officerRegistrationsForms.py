@@ -26,7 +26,6 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid first name."))
         return first_name
     
-
     middle_name = forms.CharField(max_length=250,)
     def clean_middle_name(self):
         middle_name = self.cleaned_data.get('middle_name')
@@ -43,12 +42,22 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid last name."))
         return last_name
     
-    email = forms.CharField(max_length=250)
+    
+    email = forms.EmailField(label='Enter Email',max_length=250)
     def clean_email(self):
+        """
+        Validate email address and ensure it ends with @example.com domain.
+        """
         email = self.cleaned_data.get('email')
-        if not email.endswith('@example.com'):
-            raise forms.ValidationError("email must end with @example.com")
+        
+        # Ensure email is provided and ends with @example.com domain
+        if not email:
+            raise forms.ValidationError("Email address is required.")
+        elif not email.endswith('@example.com'):
+            raise forms.ValidationError("Email must end with @example.com.")
         return email
+    
+
 
     phone_contact = forms.CharField(label='Enter Phone Number',max_length=10)
     def clean_phone_contact(self):
@@ -71,7 +80,7 @@ class officerRegistrationsForms(forms.Form):
     officer_current_rank = forms.CharField(max_length=250)
     officer_current_station = forms.CharField(max_length=250)
 
-    officer_staff_ID = forms.CharField(max_length=250)
+    officer_staff_ID = forms.CharField(label='Enter Staff ID', max_length=250)
     def clean_officer_staff_ID(self):
         officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
         if not re.match(r'^[a-zA-Z0-9]*$', officer_staff_ID):
@@ -119,7 +128,7 @@ class officer_loginForms(forms.Form):
         model =  officer_login
         fields = '_all_'
 
-    officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250)
+    officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250,)
     def clean_officer_staff_ID(self):
         clean_officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
         if not clean_officer_staff_ID:
