@@ -17,26 +17,30 @@ from .officerRegistrationsForms import officerRegistrationsForms, officer_loginF
 
 
 # officer Registrations Views
+def redirect_with_delay(request, url, delay_seconds=3):
+    return render(request, 'redirect_with_delay.html', {'url': url, 'delay_seconds': delay_seconds})
+
+
 def officer_registrations(request):
     if request.method == "POST":
         form = officerRegistrationsForms(request.POST, request.FILES)
         if form.is_valid():
+            # Extract form data
             officer_first_name = form.cleaned_data['first_name']
             officer_middle_name = form.cleaned_data['middle_name']
             officer_last_name = form.cleaned_data['last_name']
             officer_email = form.cleaned_data['email']
             officer_phone_contact = form.cleaned_data['phone_contact']
-            officer_address  = form.cleaned_data['officer_address']
+            officer_address = form.cleaned_data['officer_address']
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
-            officer_qualification  = form.cleaned_data['officer_qualification']
+            officer_qualification = form.cleaned_data['officer_qualification']
             officer_date_of_birth = form.cleaned_data['officer_date_of_birth']
-            officer_place_of_operations  = form.cleaned_data['officer_place_of_operations']
-            officer_current_rank  = form.cleaned_data['officer_current_rank']
-            officer_current_station  = form.cleaned_data['officer_current_station']
-            officer_department_of_operations  = form.cleaned_data['officer_department_of_operations']
-            officer_image  = form.cleaned_data['officer_image']
-            password  = form.cleaned_data['password']
-            
+            officer_place_of_operations = form.cleaned_data['officer_place_of_operations']
+            officer_current_rank = form.cleaned_data['officer_current_rank']
+            officer_current_station = form.cleaned_data['officer_current_station']
+            officer_department_of_operations = form.cleaned_data['officer_department_of_operations']
+            officer_image = form.cleaned_data['officer_image']
+            password = form.cleaned_data['password']
             hashed_password = make_password(password)
 
             # Create a new instance of the model
@@ -59,14 +63,15 @@ def officer_registrations(request):
             )
             # Save the new instance
             new_officer.save()
-            return HttpResponseRedirect(reverse('officer_login'))
 
+            # Display success message
+            messages.success(request, 'Registration successful!')
+
+            # Redirect to officer login page after a short delay (e.g., 2 seconds)
+            return redirect_with_delay(request, reverse('officer_login'), delay_seconds=3)
     else:
         form = officerRegistrationsForms()
     return render(request, 'officer_registrations.html', {"form": form})
-
-
-
 
 
 # Function to handle logins
@@ -92,6 +97,7 @@ def officer_login(request):
     else:
         form = officer_loginForms()
         return render(request, 'officer_login.html', {'form': form})
+
 
 
 def submissionpdf(request):
