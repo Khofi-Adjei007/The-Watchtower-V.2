@@ -22,5 +22,5 @@ class new_officer_registrations(models.Model):
 
 
 class officer_login(models.Model):
-    username = models.CharField(max_length=100)
+    officer_staff_ID = models.CharField(max_length=250)
     password = models.CharField(max_length=10, default='')

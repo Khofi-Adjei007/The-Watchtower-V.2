@@ -1,14 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime
+from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from .models import new_officer_registrations,officer_login
 from django.contrib import messages
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User, auth
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 
@@ -57,7 +57,7 @@ def officer_registrations(request):
             )
             # Save the new instance
             new_officer.save()
-            return render(request, 'officer_login.html')
+            return HttpResponseRedirect(reverse('officer_login'))
 
     else:
         form = officerRegistrationsForms()
@@ -70,25 +70,26 @@ def officer_registrations(request):
 # Function to handle logins
 def officer_login(request):
     if request.method == 'POST':
-        forms = officer_loginForms(request.POST)
-        username = request.POST.get['officer_staff_ID']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
+        form = officer_loginForms(request.POST)
+        if form.is_valid():
+            officer_staff_ID = form.cleaned_data['officer_staff_ID']
+            password = form.cleaned_data['password']
+
+            # Authenticate user using staff ID
+            user = authenticate(request, officer_staff_ID=officer_staff_ID, password=password)
+            if user is not None:
+                login(request, user)
+                
+            # Redirect to a officer account_page
+            return HttpResponseRedirect(reverse('officer_account_page'))
     
-        if user is not None:
-            if user.is_active:
-                auth_login(request, user)
-                return redirect('officer_login')
         else:
-            for field, errors in forms.erros.items():
-                for error in errors:
-                    messages.error(request, f"{field}:{error}")
-            messages.error(request,'username or password not correct')
-            return redirect('/')
-    
+            # Authentication failed
+            error_message = 'Staff ID or password Is Incorrect.'
+            return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
     else:
-        forms = officer_loginForms(request)
-    return render(request, 'officer_login.html', {'form': forms})
+        form = officer_loginForms()
+        return render(request, 'officer_login.html', {'form': form})
 
 
 def submissionpdf(request):
@@ -96,7 +97,6 @@ def submissionpdf(request):
     pass
 
 
-# Create your views here.
+# Cookings for the main page
 def officer_account_page(request):
-    current_datetime = datetime.now()
-    return render(request, 'officer_account_page.html', {"value": current_datetime})
+    return render(request, 'officer_account_page.html')

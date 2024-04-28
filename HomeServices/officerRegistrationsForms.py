@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from .models import new_officer_registrations
+from .models import new_officer_registrations, officer_login
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -50,7 +50,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError("email must end with @example.com")
         return email
 
-    phone_contact = forms.CharField()
+    phone_contact = forms.CharField(label='Enter Phone Number',max_length=10)
     def clean_phone_contact(self):
         phone_contact = self.cleaned_data.get('phone_contact')
         if not re.match(r'^\+?1?\d{9,15}$', phone_contact):
@@ -68,10 +68,10 @@ class officerRegistrationsForms(forms.Form):
             # Additional validation logic if needed
         return officer_address
 
-    officer_current_rank = forms.CharField(max_length=24)
-    officer_current_station = forms.CharField(max_length=24)
+    officer_current_rank = forms.CharField(max_length=250)
+    officer_current_station = forms.CharField(max_length=250)
 
-    officer_staff_ID = forms.CharField(max_length=12)
+    officer_staff_ID = forms.CharField(max_length=250)
     def clean_officer_staff_ID(self):
         officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
         if not re.match(r'^[a-zA-Z0-9]*$', officer_staff_ID):
@@ -87,8 +87,8 @@ class officerRegistrationsForms(forms.Form):
 
 
     officer_date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    officer_place_of_operations = forms.CharField(label="Area of Operations", max_length=24)
-    officer_department_of_operations = forms.CharField(max_length=16)
+    officer_place_of_operations = forms.CharField(label="Area of Operations", max_length=250)
+    officer_department_of_operations = forms.CharField(max_length=250)
 
     officer_image = forms.ImageField()
     def clean_officer_image(self):
@@ -115,6 +115,21 @@ class officerRegistrationsForms(forms.Form):
 
 
 class officer_loginForms(forms.Form):
-    user_name = forms.CharField(label="Enter Username (Staff_ID)",max_length=16)
-    password = forms.CharField(label="Enter Password",max_length=12)
-    pass
+    class Meta:
+        model =  officer_login
+        fields = '_all_'
+
+    officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250)
+    def clean_officer_staff_ID(self):
+        clean_officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
+        if not clean_officer_staff_ID:
+            raise forms.ValidationError(_('This field cannot be empyt'))
+        return clean_officer_staff_ID
+
+    
+    password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 8:
+            raise forms.ValidationError(_("Password must be at least 8 characters long."))
+        return password
