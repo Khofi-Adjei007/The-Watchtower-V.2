@@ -76,6 +76,7 @@ def officer_registrations(request):
 
 # Function to handle logins
 def officer_login(request):
+    error_message = None  #error_message variable outside the if block
     if request.method == 'POST':
         form = officer_loginForms(request.POST)
         if form.is_valid():
@@ -84,19 +85,22 @@ def officer_login(request):
 
             # Authenticate user using staff ID
             user = authenticate(request, officer_staff_ID=officer_staff_ID, password=password)
-            if user is not None:
-                login(request, user)
-                
-            # Redirect to a officer account_page
-            return HttpResponseRedirect(reverse('officer_account_page'))
-    
+            if not (officer_staff_ID and password):  # Check if both fields are not empty
+                error_message = 'You Did Not Enter Any'
+            else:
+                if user is not None:
+                    login(request, user)
+                    # Redirect to an officer account_page
+                    return HttpResponseRedirect(reverse('officer_account_page'))
+                else:
+                    # Authentication failed
+                    error_message = 'Staff ID or password Is Incorrect.'
         else:
-            # Authentication failed
-            error_message = 'Staff ID or password Is Incorrect.'
-            return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
+            # Form is invalid
+            error_message = 'Invalid Form Data'
     else:
         form = officer_loginForms()
-        return render(request, 'officer_login.html', {'form': form})
+    return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
 
