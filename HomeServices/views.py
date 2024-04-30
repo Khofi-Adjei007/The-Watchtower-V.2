@@ -76,7 +76,7 @@ def officer_registrations(request):
 
 # Function to handle logins
 def officer_login(request):
-    error_message = None  #error_message variable outside the if block
+    error_message = ''  #error_message variable outside the if block
     if request.method == 'POST':
         form = officer_loginForms(request.POST)
         if form.is_valid():
