@@ -4,7 +4,7 @@ from .models import new_officer_registrations, officer_login
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-import re
+import re, string
 
 
 
@@ -43,27 +43,32 @@ class officerRegistrationsForms(forms.Form):
         return last_name
     
     
-    email = forms.EmailField(label='Enter Email',max_length=250)
+    email = forms.EmailField(label='Enter Email',max_length=250,  error_messages={'required': 'Email is Required .',
+                                                                                        'invalid': 'Name is Invalid.'})
     def clean_email(self):
         """
         Validate email address and ensure it ends with @example.com domain.
         """
         email = self.cleaned_data.get('email')
-        
         # Ensure email is provided and ends with @example.com domain
         if not email:
             raise forms.ValidationError("Email address is required.")
-        elif not email.endswith('@example.com'):
+        if new_officer_registrations.objects.filter(email=email).exists():
+            raise forms.ValidationError('email already exist')
+        elif not email.endswith('@gmail.com, @yahoo.com'):
             raise forms.ValidationError("Email must end with @example.com.")
         return email
     
 
 
-    phone_contact = forms.CharField(label='Enter Phone Number',max_length=10)
+    phone_contact = forms.CharField(label='Enter Phone Number',max_length=10, error_messages={'required': 'Contact is Required .',
+                                                                                                'invalid': 'Name is Invalid.'})
     def clean_phone_contact(self):
         phone_contact = self.cleaned_data.get('phone_contact')
         if not re.match(r'^\+?1?\d{9,15}$', phone_contact):
             raise forms.ValidationError(_("Enter a valid phone number."))
+        if new_officer_registrations.objects.filter(phone_contact=phone_contact).exists():
+            raise forms.ValidationError("Number already used")
         return phone_contact
 
 
@@ -85,6 +90,8 @@ class officerRegistrationsForms(forms.Form):
         officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
         if not re.match(r'^[a-zA-Z0-9]*$', officer_staff_ID):
             raise forms.ValidationError(_("Enter a valid staff ID."))
+        if new_officer_registrations.objects.filter(officer_staff_ID=officer_staff_ID).exists():
+            raise forms.ValidationError('Staff ID alraedy exist')
         return officer_staff_ID
     
     officer_qualification = forms.CharField(max_length=250)
@@ -99,7 +106,7 @@ class officerRegistrationsForms(forms.Form):
     officer_place_of_operations = forms.CharField(label="Area of Operations", max_length=250)
     officer_department_of_operations = forms.CharField(max_length=250)
 
-    officer_image = forms.ImageField()
+    officer_profile_image = forms.ImageField()
     def clean_officer_image(self):
         officer_image = self.cleaned_data.get('officer_image')
         if not officer_image:
@@ -109,10 +116,12 @@ class officerRegistrationsForms(forms.Form):
     password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
     def clean_password(self):
         password = self.cleaned_data.get('password')
+        criteria = {'special': set(string.punctuation), 'numeric': set(string.digits), 'uppercase': set(string.ascii_uppercase)}
         if len(password) < 8:
             raise forms.ValidationError(_("Password must be at least 8 characters long."))
+        if  any(not any(char in char_set for char in password) for char_type, char_set in criteria.items()):
+            raise forms.ValidationError('Password is weak, Try Again')
         return password
-
 
     confirm_password = forms.CharField(label="Confirm Password", max_length=250, widget=forms.PasswordInput)
     def clean_confirm_password(self):
@@ -138,7 +147,6 @@ class officer_loginForms(forms.Form):
     
     password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
     def clean_password(self):
-        password = self.cleaned_data.get('password')
-        if len(password) < 8:
-            raise forms.ValidationError(_("Password must be at least 8 characters long."))
-        return password
+        clean_password = self.cleaned_data.get('password')
+        if not clean_password:
+            raise forms.ValidationError('Password Field is empty')

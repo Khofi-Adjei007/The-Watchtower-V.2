@@ -39,7 +39,7 @@ def officer_registrations(request):
             officer_current_rank = form.cleaned_data['officer_current_rank']
             officer_current_station = form.cleaned_data['officer_current_station']
             officer_department_of_operations = form.cleaned_data['officer_department_of_operations']
-            officer_image = form.cleaned_data['officer_image']
+            officer_profile_image = form.cleaned_data['officer_profile_image']
             password = form.cleaned_data['password']
             hashed_password = make_password(password)
 
@@ -58,7 +58,7 @@ def officer_registrations(request):
                 officer_current_rank=officer_current_rank,
                 officer_current_station=officer_current_station,
                 officer_department_of_operations=officer_department_of_operations,
-                officer_image=officer_image,
+                officer_profile_image=officer_profile_image,
                 password=hashed_password
             )
             # Save the new instance
