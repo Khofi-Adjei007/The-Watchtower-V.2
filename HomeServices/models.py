@@ -65,18 +65,32 @@ class NewOfficerRegistration(models.Model):
     officer_date_of_birth = models.DateField()
     officer_operations_region = models.CharField(max_length=250)
 
+        # Constants for officer departments
     DEPARTMENT_Criminal_InvestigationDepartment = 'CID'
     DEPARTMENT_Motor_Traffic_and_TransportDirectorate = 'MTTD'
-    DEPARTMENT_The_Police_College = 'PC'
+    DEPARTMENT_Domestic_Violence_and_Victim_Support_Unit = 'DOVVSU'
+    DEPARTMENT_The_Police_College = 'The Police College'
+    DEPARTMENT_Other_Training_Institutions = 'Other Training Institutions'
     DEPARTMENT_Works_and_Housing_Department = 'W&H'
-    DEPARTMENT_Public_Relations_Department= 'PRD'
+    DEPARTMENT_Public_Relations_Department = 'PRD'
     DEPARTMENT_Medical_Hospital = 'MH'
+    DEPARTMENT_Marine_Ports_and_Railways = 'Marine Ports & Railways'
+    DEPARTMENT_Community_Policing = 'Community Policing'
 
+        # Choices for officer departments
     OFFICER_DEPARTMENT_CHOICES = [
-        (DEPARTMENT_Criminal_InvestigationDepartment, 'CRIMINAL'),
-        (DEPARTMENT_Motor_Traffic_and_TransportDirectorate, 'MTTD'),
-        (DEPARTMENT_The_Police_College, 'The Police Collge'),
-    ]
+            (DEPARTMENT_Criminal_InvestigationDepartment, 'Criminal Investigation Department [CID]'),
+            (DEPARTMENT_Motor_Traffic_and_TransportDirectorate, 'Motor Traffic and Transport Directorate [MTTD]'),
+            (DEPARTMENT_Domestic_Violence_and_Victim_Support_Unit, 'Domestic Violence and Victim Support Unit [DOVVSU]'),
+            (DEPARTMENT_The_Police_College, 'The Police College'),
+            (DEPARTMENT_Other_Training_Institutions, 'Other Training Institutions'),
+            (DEPARTMENT_Works_and_Housing_Department, 'Works & Housing Department'),
+            (DEPARTMENT_Public_Relations_Department, 'Public Relations Department'),
+            (DEPARTMENT_Medical_Hospital, 'Medical – Hospital'),
+            (DEPARTMENT_Marine_Ports_and_Railways, 'Marine Ports & Railways'),
+            (DEPARTMENT_Community_Policing, 'Community Policing'),
+        ]
+
     officer_operations_department = models.CharField(max_length=250, choices=OFFICER_DEPARTMENT_CHOICES)
 
     officer_profile_image = models.ImageField(upload_to='')
