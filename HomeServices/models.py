@@ -1,26 +1,87 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
-
-# Registration Model
-class new_officer_registrations(models.Model):
-    first_name = models.CharField(max_length=250, default='')
+class NewOfficerRegistration(models.Model):
+    first_name = models.CharField(max_length=250)
     middle_name = models.CharField(max_length=250)
-    last_name = models.CharField(max_length=250, default='')
+    last_name = models.CharField(max_length=250)
     email = models.EmailField(unique=True, max_length=250)
     phone_contact = models.IntegerField(unique=True)
     officer_address = models.CharField(max_length=250)
-    officer_current_rank = models.CharField(max_length=250)
+    
+    # Constants for officer ranks
+    RANK_Constable = 'Constable'
+    RANK_Lance_Corporal = 'Lance Corporal'
+    RANK_Corporal = 'Corporal'
+    RANK_Sergeant = 'Sergeant'
+    RANK_District_Sergeant_Major = 'District Sergeant Major'
+    RANK_Inspector = 'Inspector'
+    RANK_Regional_Sergeant_Major = 'Regional Sergeant Major'
+    RANK_Chief_Inspector = 'Chief Inspector'
+    RANK_Assistant_Superintendent_of_Police = 'Assistant Superintendent of Police'
+    RANK_Deputy_Superintendent_of_Police = 'Deputy Superintendent of Police'
+    RANK_Superintendent_of_Police = 'Superintendent of Police'
+    RANK_Chief_Superintendent = 'Chief Superintendent'
+    RANK_Assistant_Commissioner_of_Police = 'Assistant Commissioner of Police'
+    RANK_Deputy_Commissioner_of_Police = 'Deputy Commissioner of Police'
+    RANK_Commissioner_of_Police = 'Commissioner of Police'
+    RANK_Inspector_General_of_Police = 'Inspector General of Police'
+
+    # Choices for officer ranks
+    OFFICER_RANK_CHOICES = [
+        (RANK_Constable, 'Constable'),
+        (RANK_Lance_Corporal, 'Lance Corporal'),
+        (RANK_Corporal, 'Corporal'),
+        (RANK_Sergeant, 'Sergeant'),
+        (RANK_District_Sergeant_Major, 'District Sergeant Major'),
+        (RANK_Inspector, 'Inspector'),
+        (RANK_Regional_Sergeant_Major, 'Regional Sergeant Major'),
+        (RANK_Chief_Inspector, 'Chief Inspector'),
+        (RANK_Assistant_Superintendent_of_Police, 'Assistant Superintendent of Police'),
+        (RANK_Deputy_Superintendent_of_Police, 'Deputy Superintendent of Police'),
+        (RANK_Superintendent_of_Police, 'Superintendent of Police'),
+        (RANK_Chief_Superintendent, 'Chief Superintendent'),
+        (RANK_Assistant_Commissioner_of_Police, 'Assistant Commissioner of Police'),
+        (RANK_Deputy_Commissioner_of_Police, 'Deputy Commissioner of Police'),
+        (RANK_Commissioner_of_Police, 'Commissioner of Police'),
+        (RANK_Inspector_General_of_Police, 'Inspector General of Police'),
+    ]
+    officer_current_rank = models.CharField(max_length=250, choices=OFFICER_RANK_CHOICES)
+
     officer_current_station = models.CharField(max_length=250)
     officer_staff_ID = models.CharField(unique=True, max_length=250)
-    officer_qualification = models.CharField(max_length=250)
+    
+    EDUCATION_WASSCE = 'WS'
+    EDUCATION_DEGREE = 'DG'
+    EDUCATION_MASTERS = 'MS'
+    EDUCATION_PHD = 'PH'
+    
+    EDUCATION_QUALIFICATION_CHOICES = [
+        (EDUCATION_WASSCE, 'WASSCE'),
+        (EDUCATION_DEGREE, 'DEGREE'),
+        (EDUCATION_MASTERS, 'MASTERS'),
+        (EDUCATION_PHD, 'PHD'),
+    ]
+    officer_qualification = models.CharField(max_length=2, choices=EDUCATION_QUALIFICATION_CHOICES)
     officer_date_of_birth = models.DateField()
-    officer_place_of_operations = models.CharField(max_length=250)
-    officer_department_of_operations = models.CharField(max_length=250)
+    officer_operations_region = models.CharField(max_length=250)
+
+    DEPARTMENT_Criminal_InvestigationDepartment = 'CID'
+    DEPARTMENT_Motor_Traffic_and_TransportDirectorate = 'MTTD'
+    DEPARTMENT_The_Police_College = 'PC'
+    DEPARTMENT_Works_and_Housing_Department = 'W&H'
+    DEPARTMENT_Public_Relations_Department= 'PRD'
+    DEPARTMENT_Medical_Hospital = 'MH'
+
+    OFFICER_DEPARTMENT_CHOICES = [
+        (DEPARTMENT_Criminal_InvestigationDepartment, 'CRIMINAL'),
+        (DEPARTMENT_Motor_Traffic_and_TransportDirectorate, 'MTTD'),
+        (DEPARTMENT_The_Police_College, 'The Police Collge'),
+    ]
+    officer_operations_department = models.CharField(max_length=250, choices=OFFICER_DEPARTMENT_CHOICES)
+
     officer_profile_image = models.ImageField(upload_to='')
-    password = models.CharField(max_length=250, default='')
+    password = models.CharField(max_length=250)
 
-
-class officer_login(models.Model):
+class OfficerLogin(models.Model):
     officer_staff_ID = models.CharField(max_length=250)
-    password = models.CharField(max_length=10, default='')
+    password = models.CharField(max_length=128)  # Increase max_length for password

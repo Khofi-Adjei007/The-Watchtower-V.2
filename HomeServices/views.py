@@ -7,7 +7,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
-from .models import new_officer_registrations,officer_login
+from .models import NewOfficerRegistration,OfficerLogin
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -35,16 +35,17 @@ def officer_registrations(request):
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
             officer_qualification = form.cleaned_data['officer_qualification']
             officer_date_of_birth = form.cleaned_data['officer_date_of_birth']
-            officer_place_of_operations = form.cleaned_data['officer_place_of_operations']
+            officer_operations_region = form.cleaned_data['officer_operations_region']
             officer_current_rank = form.cleaned_data['officer_current_rank']
             officer_current_station = form.cleaned_data['officer_current_station']
-            officer_department_of_operations = form.cleaned_data['officer_department_of_operations']
+            officer_operations_department = form.cleaned_data['officer_operations_department']
             officer_profile_image = form.cleaned_data['officer_profile_image']
             password = form.cleaned_data['password']
             hashed_password = make_password(password)
 
+
             # Create a new instance of the model
-            new_officer = new_officer_registrations.objects.create(
+            new_officer = NewOfficerRegistration.objects.create(
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
                 last_name=officer_last_name,
@@ -54,10 +55,10 @@ def officer_registrations(request):
                 officer_staff_ID=officer_staff_ID,
                 officer_qualification=officer_qualification,
                 officer_date_of_birth=officer_date_of_birth,
-                officer_place_of_operations=officer_place_of_operations,
+                officer_operations_region=officer_operations_region,
                 officer_current_rank=officer_current_rank,
                 officer_current_station=officer_current_station,
-                officer_department_of_operations=officer_department_of_operations,
+                officer_operations_department=officer_operations_department,
                 officer_profile_image=officer_profile_image,
                 password=hashed_password
             )
@@ -68,7 +69,7 @@ def officer_registrations(request):
             messages.success(request, 'Registration successful!')
 
             # Redirect to officer login page after a short delay (e.g., 2 seconds)
-            return redirect_with_delay(request, reverse('officer_login'), delay_seconds=3)
+            return redirect_with_delay(request, reverse('officer_login'), delay_seconds=2)
     else:
         form = officerRegistrationsForms()
     return render(request, 'officer_registrations.html', {"form": form})

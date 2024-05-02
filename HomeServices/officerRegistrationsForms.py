@@ -1,10 +1,11 @@
 from django import forms
 from django.db import models
-from .models import new_officer_registrations, officer_login
+from .models import NewOfficerRegistration, OfficerLogin
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import re, string
+from email_validator import validate_email, EmailNotValidError
 
 
 
@@ -12,8 +13,12 @@ import re, string
 class officerRegistrationsForms(forms.Form):
 
     class Meta:
-        model = new_officer_registrations
+        model = NewOfficerRegistration
         fields = '__all__'
+        widgets = {
+            'officer_qualification': forms.Select(choices=NewOfficerRegistration.EDUCATION_QUALIFICATION_CHOICES),
+            'officer_current_rank': forms.Select(choices=NewOfficerRegistration.OFFICER_RANK_CHOICES)
+        }
 
     first_name = forms.CharField(label="Enter first Name", max_length=100,
                                  error_messages={'required': 'First Name is Required .',
@@ -26,7 +31,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid first name."))
         return first_name
     
-    middle_name = forms.CharField(max_length=250,)
+    middle_name = forms.CharField(required=False,max_length=250,)
     def clean_middle_name(self):
         middle_name = self.cleaned_data.get('middle_name')
         if middle_name and not re.match(r'^[a-zA-Z]*$', middle_name):
@@ -47,19 +52,20 @@ class officerRegistrationsForms(forms.Form):
                                                                                         'invalid': 'Name is Invalid.'})
     def clean_email(self):
         """
-        Validate email address and ensure it ends with @example.com domain.
+        Validate email address and ensure it ends with @gmail.com or @yahoo.com domain.
         """
         email = self.cleaned_data.get('email')
-        # Ensure email is provided and ends with @example.com domain
         if not email:
             raise forms.ValidationError("Email address is required.")
-        if new_officer_registrations.objects.filter(email=email).exists():
-            raise forms.ValidationError('email already exist')
-        elif not email.endswith('@gmail.com, @yahoo.com'):
-            raise forms.ValidationError("Email must end with @example.com.")
+        if NewOfficerRegistration.objects.filter(email=email).exists():
+            raise forms.ValidationError('Email already exists.')
+        
+            # Use email-validator library for more comprehensive validation
+        try:
+            validate_email(email)
+        except EmailNotValidError:
+            raise forms.ValidationError("Invalid email address.")
         return email
-    
-
 
     phone_contact = forms.CharField(label='Enter Phone Number',max_length=10, error_messages={'required': 'Contact is Required .',
                                                                                                 'invalid': 'Name is Invalid.'})
@@ -67,7 +73,7 @@ class officerRegistrationsForms(forms.Form):
         phone_contact = self.cleaned_data.get('phone_contact')
         if not re.match(r'^\+?1?\d{9,15}$', phone_contact):
             raise forms.ValidationError(_("Enter a valid phone number."))
-        if new_officer_registrations.objects.filter(phone_contact=phone_contact).exists():
+        if NewOfficerRegistration.objects.filter(phone_contact=phone_contact).exists():
             raise forms.ValidationError("Number already used")
         return phone_contact
 
@@ -82,7 +88,9 @@ class officerRegistrationsForms(forms.Form):
             # Additional validation logic if needed
         return officer_address
 
-    officer_current_rank = forms.CharField(max_length=250)
+    officer_current_rank = forms.ChoiceField(label='Select Current Rank',
+                                              choices=NewOfficerRegistration.OFFICER_RANK_CHOICES)
+    
     officer_current_station = forms.CharField(max_length=250)
 
     officer_staff_ID = forms.CharField(label='Enter Staff ID', max_length=250)
@@ -90,21 +98,18 @@ class officerRegistrationsForms(forms.Form):
         officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
         if not re.match(r'^[a-zA-Z0-9]*$', officer_staff_ID):
             raise forms.ValidationError(_("Enter a valid staff ID."))
-        if new_officer_registrations.objects.filter(officer_staff_ID=officer_staff_ID).exists():
+        if NewOfficerRegistration.objects.filter(officer_staff_ID=officer_staff_ID).exists():
             raise forms.ValidationError('Staff ID alraedy exist')
         return officer_staff_ID
     
-    officer_qualification = forms.CharField(max_length=250)
-    def clean_officer_qualification(self):
-        officer_qualifications = self.cleaned_data.get('officer_qualification')
-        if not re.match(r'^[a-zA-Z0-9]*$', officer_qualifications):
-            raise forms.ValidationError(_("Enter a valid qualification"))
-        return officer_qualifications
+    officer_qualification = forms.ChoiceField(label='Select Level of Education',
+                                              choices=NewOfficerRegistration.EDUCATION_QUALIFICATION_CHOICES)
 
 
     officer_date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    officer_place_of_operations = forms.CharField(label="Area of Operations", max_length=250)
-    officer_department_of_operations = forms.CharField(max_length=250)
+    officer_operations_region = forms.CharField(label="Operational Region", max_length=250)
+    officer_operations_department = forms.ChoiceField(label='Select Department of Operations',
+                                              choices=NewOfficerRegistration.OFFICER_DEPARTMENT_CHOICES)
 
     officer_profile_image = forms.ImageField()
     def clean_officer_image(self):
@@ -134,7 +139,7 @@ class officerRegistrationsForms(forms.Form):
 
 class officer_loginForms(forms.Form):
     class Meta:
-        model =  officer_login
+        model =  OfficerLogin
         fields = '_all_'
 
     officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250,)

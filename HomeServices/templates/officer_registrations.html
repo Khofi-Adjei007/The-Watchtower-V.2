@@ -28,19 +28,29 @@
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {% csrf_token %}
                     
-                    
                     {% for field in form %}
                     <div>
-                        <label for="{{ field.name }}" class="block text-gray-700">{{ field.name }}<span class="text-red-700 ml-1">*</span></label>
-                        {% for error in field.errors %}
-                        <p class="text-red-500 error-message ">{{ error }}</p>
-                        {% endfor %}
-                                               
-                        <input type="{{ field.field.widget.input_type }}" id="{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}" class="w-full px-3 py-2 mt-1 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    {% endfor %}   
-                   
+                        <label for="{{ field.name }}" class="block text-gray-700">{{ field.label }}<span class="text-red-700 ml-1">*</span></label>
 
+                        {% for error in field.errors %}
+                        <p class="text-red-500 error-message">{{ error }}</p>
+                        {% endfor %}
+
+                        <!--For Choices Field-->
+                        {% if field.name == 'officer_qualification' or field.name == 'officer_operations_department' or field.name == 'officer_current_rank' %}
+                        <select id="{{ field.name }}" name="{{ field.name }}" class="w-full px-3 py-2 mt-1 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected> {{ field.label }}</option>
+                            {% for choice in field.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+
+                        {% else %}
+                        <input type="{{ field.field.widget.input_type }}" id="{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}" class="w-full px-3 py-2 mt-1 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                   
                     <!-- Submit Button -->
                     <div class="col-span-2">
                         <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Submit</button>
