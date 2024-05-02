@@ -140,18 +140,7 @@ class officerRegistrationsForms(forms.Form):
 class officer_loginForms(forms.Form):
     class Meta:
         model =  OfficerLogin
-        fields = '_all_'
+        fields = '__all__'
 
     officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250,)
-    def clean_officer_staff_ID(self):
-        clean_officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
-        if not clean_officer_staff_ID:
-            raise forms.ValidationError(_('This field cannot be empyt'))
-        return clean_officer_staff_ID
-
-    
     password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
-    def clean_password(self):
-        clean_password = self.cleaned_data.get('password')
-        if not clean_password:
-            raise forms.ValidationError('Password Field is empty')

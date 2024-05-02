@@ -92,10 +92,10 @@ class NewOfficerRegistration(models.Model):
         ]
 
     officer_operations_department = models.CharField(max_length=250, choices=OFFICER_DEPARTMENT_CHOICES)
-
     officer_profile_image = models.ImageField(upload_to='')
     password = models.CharField(max_length=250)
 
+
 class OfficerLogin(models.Model):
-    officer_staff_ID = models.CharField(max_length=250)
+    officer_staff_ID = models.CharField(unique=True, max_length=250)
     password = models.CharField(max_length=128)  # Increase max_length for password

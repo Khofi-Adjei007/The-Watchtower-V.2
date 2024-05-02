@@ -1,13 +1,19 @@
 from django.contrib.auth.backends import BaseBackend
-from .models import new_officer_registrations
+from .models import OfficerLogin
 
-
-
-class StaffIDBackend(BaseBackend):
+class OfficerAuthBackend(BaseBackend):
     def authenticate(self, request, officer_staff_ID=None, password=None):
         try:
-            user = new_officer_registrations.objects.get(officer_staff_ID=officer_staff_ID)
-            if user.check_password(password):
-                return user
-        except new_officer_registrations.DoesNotExist:
+            # Retrieve the user with the provided officer_staff_ID
+            officer = OfficerLogin.objects.get(officer_staff_ID=officer_staff_ID)
+            # Check if the provided password matches the user's password
+            if officer.check_password(password):
+                # Return the authenticated user
+                return officer
+        except OfficerLogin.DoesNotExist:
+            # If the user does not exist, return None
             return None
+    
+    # You may also need to implement the following methods:
+    # def get_user(self, user_id):
+    #     return OfficerLogin.objects.get(pk=user_id)

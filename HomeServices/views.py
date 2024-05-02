@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
+from django.contrib.auth.hashers import check_password
 
 
 
@@ -77,31 +78,37 @@ def officer_registrations(request):
 
 # Function to handle logins
 def officer_login(request):
-    error_message = ''  #error_message variable outside the if block
+    error_message = ''
     if request.method == 'POST':
         form = officer_loginForms(request.POST)
         if form.is_valid():
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
             password = form.cleaned_data['password']
 
-            # Authenticate user using staff ID
+            # Authenticate user using custom authentication backend
             user = authenticate(request, officer_staff_ID=officer_staff_ID, password=password)
-            if not (officer_staff_ID and password):  # Check if both fields are not empty
-                error_message = 'You Did Not Enter Any'
-            else:
-                if user is not None:
+            if user is not None:
+                # Check if the provided password matches the user's password
+                if check_password(password, user.password):
+                    # If authentication is successful, log in the user
                     login(request, user)
-                    # Redirect to an officer account_page
+                    # Redirect to the officer account page
                     return HttpResponseRedirect(reverse('officer_account_page'))
                 else:
-                    # Authentication failed
-                    error_message = 'Staff ID or password Is Incorrect.'
+                    # If authentication fails, display an error message
+                    error_message = 'Staff ID or password is incorrect.'
+            else:
+                # If authentication fails, display an error message
+                error_message = 'Staff ID or password is incorrect.'
         else:
-            # Form is invalid
-            error_message = 'Invalid Form Data'
+            # If form is invalid, display an error message
+            error_message = 'Invalid form data'
     else:
+        # If request method is not POST, initialize an empty form
         form = officer_loginForms()
+    # Render the login page with the form and error message
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
+
 
 
 
