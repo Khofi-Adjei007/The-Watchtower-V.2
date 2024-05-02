@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password, check_password
 
 
 
@@ -76,7 +76,10 @@ def officer_registrations(request):
     return render(request, 'officer_registrations.html', {"form": form})
 
 
-# Function to handle logins
+
+
+
+
 def officer_login(request):
     error_message = ''
     if request.method == 'POST':
@@ -85,20 +88,26 @@ def officer_login(request):
             officer_staff_ID = form.cleaned_data['officer_staff_ID']
             password = form.cleaned_data['password']
 
-            # Authenticate user using custom authentication backend
-            user = authenticate(request, officer_staff_ID=officer_staff_ID, password=password)
-            if user is not None:
-                # Check if the provided password matches the user's password
-                if check_password(password, user.password):
+            # Get the OfficerLogin object from the database
+            try:
+                officer_login = OfficerLogin.objects.get(officer_staff_ID=officer_staff_ID)
+            except OfficerLogin.DoesNotExist:
+                officer_login = None
+
+            # If officer_login is found and password matches, proceed with authentication
+            if officer_login and check_password(password, officer_login.password):
+                # Authenticate user using custom authentication backend
+                user = authenticate(request, staff_ID=officer_staff_ID, password=password)
+                if user is not None:
                     # If authentication is successful, log in the user
                     login(request, user)
                     # Redirect to the officer account page
                     return HttpResponseRedirect(reverse('officer_account_page'))
                 else:
                     # If authentication fails, display an error message
-                    error_message = 'Staff ID or password is incorrect.'
+                    error_message = 'Authentication failed.'
             else:
-                # If authentication fails, display an error message
+                # If officer_login is not found or password doesn't match, display error
                 error_message = 'Staff ID or password is incorrect.'
         else:
             # If form is invalid, display an error message
@@ -108,6 +117,9 @@ def officer_login(request):
         form = officer_loginForms()
     # Render the login page with the form and error message
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
+
+
+
 
 
 

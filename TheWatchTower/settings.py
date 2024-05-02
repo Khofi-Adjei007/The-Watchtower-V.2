@@ -105,7 +105,7 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'HomeServices.backends.OfficerAuthBackend',
+    'HomeServices.backends.StaffIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
