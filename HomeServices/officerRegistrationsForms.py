@@ -108,7 +108,7 @@ class officerRegistrationsForms(forms.Form):
 
     officer_date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     officer_operations_region = forms.CharField(label="Operational Region", max_length=250)
-    officer_operations_department = forms.ChoiceField(label='Select Department of Operations',
+    officer_operations_department = forms.ChoiceField(label='Department of Operations',
                                               choices=NewOfficerRegistration.OFFICER_DEPARTMENT_CHOICES)
 
     officer_profile_image = forms.ImageField()

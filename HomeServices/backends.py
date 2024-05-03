@@ -1,14 +1,11 @@
-from django.contrib.auth.backends import ModelBackend
-from .models import OfficerLogin
+from django.contrib.auth.backends import BaseBackend
+from .models import NewOfficerRegistration # Import your user model
 
-class StaffIDBackend(ModelBackend):
-    def authenticate(self, request, staff_ID=None, password=None, **kwargs):
+class StaffIDBackend(BaseBackend):
+    def authenticate(self, request, officer_staff_ID=None, password=None):
         try:
-            # Query the OfficerLogin model directly
-            user = OfficerLogin.objects.get(officer_staff_ID=staff_ID)
+            user = NewOfficerRegistration.objects.get(officer_staff_ID=officer_staff_ID)
             if user.check_password(password):
                 return user
-        except OfficerLogin.DoesNotExist:
+        except NewOfficerRegistration.DoesNotExist:
             return None
-
-        return None

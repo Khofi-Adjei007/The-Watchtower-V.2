@@ -21,7 +21,6 @@ from django.contrib.auth.hashers import make_password, check_password
 def redirect_with_delay(request, url, delay_seconds=3):
     return render(request, 'redirect_with_delay.html', {'url': url, 'delay_seconds': delay_seconds})
 
-
 def officer_registrations(request):
     if request.method == "POST":
         form = officerRegistrationsForms(request.POST, request.FILES)
@@ -44,8 +43,7 @@ def officer_registrations(request):
             password = form.cleaned_data['password']
             hashed_password = make_password(password)
 
-
-            # Create a new instance of the model
+            # Save data to NewOfficerRegistration table
             new_officer = NewOfficerRegistration.objects.create(
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
@@ -63,8 +61,12 @@ def officer_registrations(request):
                 officer_profile_image=officer_profile_image,
                 password=hashed_password
             )
-            # Save the new instance
-            new_officer.save()
+
+            # Save Officer_Staff_ID and Password to OfficerLogin table
+            OfficerLogin.objects.create(
+                officer_staff_ID=officer_staff_ID,
+                password=hashed_password
+            )
 
             # Display success message
             messages.success(request, 'Registration successful!')
@@ -96,6 +98,7 @@ def officer_login(request):
 
             # If officer_login is found and password matches, proceed with authentication
             if officer_login and check_password(password, officer_login.password):
+                
                 # Authenticate user using custom authentication backend
                 user = authenticate(request, staff_ID=officer_staff_ID, password=password)
                 if user is not None:

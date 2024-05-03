@@ -61,7 +61,7 @@ class NewOfficerRegistration(models.Model):
         (EDUCATION_MASTERS, 'MASTERS'),
         (EDUCATION_PHD, 'PHD'),
     ]
-    officer_qualification = models.CharField(max_length=2, choices=EDUCATION_QUALIFICATION_CHOICES)
+    officer_qualification = models.CharField(max_length=250, choices=EDUCATION_QUALIFICATION_CHOICES)
     officer_date_of_birth = models.DateField()
     officer_operations_region = models.CharField(max_length=250)
 
