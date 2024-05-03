@@ -108,10 +108,10 @@ def officer_login(request):
                     return HttpResponseRedirect(reverse('officer_account_page'))
                 else:
                     # If authentication fails, display an error message
-                    error_message = 'Authentication failed.'
+                    error_message = 'Password is wrong.'
             else:
                 # If officer_login is not found or password doesn't match, display error
-                error_message = 'Staff ID or password is incorrect.'
+                error_message = 'Staff ID is incorrect.'
         else:
             # If form is invalid, display an error message
             error_message = 'Invalid form data'
@@ -120,10 +120,6 @@ def officer_login(request):
         form = officer_loginForms()
     # Render the login page with the form and error message
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
-
-
-
-
 
 
 

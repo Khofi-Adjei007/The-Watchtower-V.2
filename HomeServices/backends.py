@@ -1,6 +1,8 @@
 from django.contrib.auth.backends import BaseBackend
 from .models import NewOfficerRegistration # Import your user model
 
+
+
 class StaffIDBackend(BaseBackend):
     def authenticate(self, request, officer_staff_ID=None, password=None):
         try:
