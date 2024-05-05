@@ -45,8 +45,15 @@
                                     {% else %}
                                     <img class="h-8 w-8 rounded-full" src="/static/images/profile-image.jpeg" alt="">
                                     {% endif %}
+
+                                    
                                     <!-- Profile Name -->
+                                    {% if user.is_authenticated %}
+                                    <img class="h-8 w-8 rounded-full" srSc="{{ user.profile_picture.url }}" alt="">
+                                    {% else %}
                                     <span class="text-white font-medium ml-2">YABANI ATINGA</span>
+                                    {% endif %}
+
                                     <!-- Dropdown Icon -->
                                     <svg class="h-4 w-4 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -108,9 +115,9 @@
                                 <!-- Content for the second inner div -->
                                 <div id="button_class" class="cursor-pointer flex flex-col lg:flex-row justify-center items-stretch font-bold bg-gray-900 rounded-md divide-x">  
                                     <div id="content-1" class=" bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">New Docket</div>
-                                    <div id="content-2" class=" bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Make A Search</div>
-                                    <div class="content-3 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Calls & Tracking</div>
-                                   <div class="content-4 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Another Docket</div>
+                                    <div id="content-2" class=" bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Happenings</div>
+                                    <div class="content-3 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Ethics & Conducts</div>
+                                   <div class="content-4 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">History</div>
                                 </div>
     
                                 <div class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">

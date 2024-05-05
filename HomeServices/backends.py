@@ -1,6 +1,6 @@
 from django.contrib.auth.backends import BaseBackend
-from .models import NewOfficerRegistration # Import your user model
-
+from django.contrib.auth.hashers import check_password
+from .models import NewOfficerRegistration
 
 
 class StaffIDBackend(BaseBackend):

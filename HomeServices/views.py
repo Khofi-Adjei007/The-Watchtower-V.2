@@ -108,10 +108,13 @@ def officer_login(request):
                     return HttpResponseRedirect(reverse('officer_account_page'))
                 else:
                     # If authentication fails, display an error message
-                    error_message = 'Password is wrong.'
+                    error_message = 'Authentication failed. Please check your credentials.'
             else:
                 # If officer_login is not found or password doesn't match, display error
-                error_message = 'Staff ID is incorrect.'
+                if officer_login:
+                    error_message = 'Password does not match.'
+                else:
+                    error_message = 'Staff ID is incorrect.'
         else:
             # If form is invalid, display an error message
             error_message = 'Invalid form data'
@@ -123,6 +126,8 @@ def officer_login(request):
 
 
 
+
+
 def submissionpdf(request):
     # To Process Case Input
     pass
@@ -131,3 +136,4 @@ def submissionpdf(request):
 # Cookings for the main page
 def officer_account_page(request):
     return render(request, 'officer_account_page.html')
+

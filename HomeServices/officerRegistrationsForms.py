@@ -118,7 +118,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError('Image is required')
         return officer_image
     
-    password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
+    password = forms.CharField(label="Enter Password",max_length=128, widget=forms.PasswordInput)
     def clean_password(self):
         password = self.cleaned_data.get('password')
         criteria = {'special': set(string.punctuation), 'numeric': set(string.digits), 'uppercase': set(string.ascii_uppercase)}
@@ -128,7 +128,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError('Password is weak, Try Again')
         return password
 
-    confirm_password = forms.CharField(label="Confirm Password", max_length=250, widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label="Confirm Password", max_length=128, widget=forms.PasswordInput)
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
         confirm_password = self.cleaned_data.get('confirm_password')
@@ -143,4 +143,4 @@ class officer_loginForms(forms.Form):
         fields = '__all__'
 
     officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250,)
-    password = forms.CharField(label="Enter Password",max_length=250, widget=forms.PasswordInput)
+    password = forms.CharField(label="Enter Password",max_length=128, widget=forms.PasswordInput)

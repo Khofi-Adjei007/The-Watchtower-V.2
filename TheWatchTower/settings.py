@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'HomeServices',
+    'target',
     'tailwind',
     'Theme',
     'django_browser_reload'
