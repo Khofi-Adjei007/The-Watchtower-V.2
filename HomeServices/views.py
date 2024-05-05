@@ -13,6 +13,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 from django.contrib.auth.hashers import make_password, check_password
+from django.shortcuts import render, redirect
+
 
 
 
@@ -29,6 +31,8 @@ def officer_registrations(request):
             officer_first_name = form.cleaned_data['first_name']
             officer_middle_name = form.cleaned_data['middle_name']
             officer_last_name = form.cleaned_data['last_name']
+            username = form.cleaned_data['username']
+            officer_gender = form.cleaned_data['officer_gender']
             officer_email = form.cleaned_data['email']
             officer_phone_contact = form.cleaned_data['phone_contact']
             officer_address = form.cleaned_data['officer_address']
@@ -48,6 +52,8 @@ def officer_registrations(request):
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
                 last_name=officer_last_name,
+                username = username,
+                officer_gender = officer_gender,
                 email=officer_email,
                 phone_contact=officer_phone_contact,
                 officer_address=officer_address,
@@ -60,12 +66,13 @@ def officer_registrations(request):
                 officer_operations_department=officer_operations_department,
                 officer_profile_image=officer_profile_image,
                 password=hashed_password
-            )
+            ) 
+            new_officer.save()
 
             # Save Officer_Staff_ID and Password to OfficerLogin table
             OfficerLogin.objects.create(
-                officer_staff_ID=officer_staff_ID,
-                password=hashed_password
+                password=hashed_password,
+                username = username,
             )
 
             # Display success message
@@ -83,46 +90,8 @@ def officer_registrations(request):
 
 
 def officer_login(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = officer_loginForms(request.POST)
-        if form.is_valid():
-            officer_staff_ID = form.cleaned_data['officer_staff_ID']
-            password = form.cleaned_data['password']
+    return render(request, 'officer_login.html')
 
-            # Get the OfficerLogin object from the database
-            try:
-                officer_login = OfficerLogin.objects.get(officer_staff_ID=officer_staff_ID)
-            except OfficerLogin.DoesNotExist:
-                officer_login = None
-
-            # If officer_login is found and password matches, proceed with authentication
-            if officer_login and check_password(password, officer_login.password):
-                
-                # Authenticate user using custom authentication backend
-                user = authenticate(request, staff_ID=officer_staff_ID, password=password)
-                if user is not None:
-                    # If authentication is successful, log in the user
-                    login(request, user)
-                    # Redirect to the officer account page
-                    return HttpResponseRedirect(reverse('officer_account_page'))
-                else:
-                    # If authentication fails, display an error message
-                    error_message = 'Authentication failed. Please check your credentials.'
-            else:
-                # If officer_login is not found or password doesn't match, display error
-                if officer_login:
-                    error_message = 'Password does not match.'
-                else:
-                    error_message = 'Staff ID is incorrect.'
-        else:
-            # If form is invalid, display an error message
-            error_message = 'Invalid form data'
-    else:
-        # If request method is not POST, initialize an empty form
-        form = officer_loginForms()
-    # Render the login page with the form and error message
-    return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
 

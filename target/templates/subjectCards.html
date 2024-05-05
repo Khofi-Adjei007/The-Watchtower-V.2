@@ -12,16 +12,51 @@
 </head>
 
 <body>
+        <div class="bg-gray-900">
+
+        </div>
+
     <div class="min-h-screen py-28 px-36 bg-cover bg-center" style="background-image: url({%static '/images/24565.jpg' %} );">
         <div class="min-h-10 flex flex-col justify-center items-center">
             <div class="bg-white px-8 py-6 rounded-lg shadow-md w-140">
 
             <div class="text-center">
-            <img class="h-12 mx-auto mb-4" src="/static/images/download.png" alt="Your Company">
+            <img class="h-14 mx-auto mb-4" src="/static/images/download.png" alt="Your Company">
             <h1 class="text-xl font-semibold mb-4">Subject In Review</h1>
-            <div class="w-48 h-48 mx-auto mb-3 rounded-full overflow-hidden shadow-lg">
-                <img class="w-full h-full object-cover" src="{% static '/images/images.jpeg' %}" alt="Subject Image">
+
+            <div class="flex flex-wrap justify-center">
+                <!-- First Image -->
+                <div class="max-w-xs m-2 relative">
+                    <div class="w-48 h-48 mx-auto mb-3 rounded-full overflow-hidden shadow-lg">
+                        <img class="w-full h-full object-cover" src="{% static '/images/1403.jpg' %}" alt="Image 1">
+                    </div>
+                    <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-white">Subject Image - 1</span>
+                    </div>
+                </div>
+
+                <!-- Second Image -->
+                <div class="max-w-xs m-2 relative">
+                    <div class="w-48 h-48 mx-auto mb-3 rounded-full overflow-hidden shadow-lg">
+                        <img class="w-full h-full object-cover" src="{% static '/images/img.jpeg' %}" alt="Image 2">
+                    </div>
+                    <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-white">Subject Image - 2</span>
+                    </div>
+                </div>
+
+                <!-- Third Image -->
+                <div class="max-w-xs m-2 relative">
+                    <div class="w-48 h-48 mx-auto mb-3 rounded-full overflow-hidden shadow-lg">
+                        <img class="w-full h-full object-cover" src="{% static '/images/images.jpeg' %}" alt="Image 3">
+                    </div>
+                    <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-white">Subject Image - 3</span>
+                    </div>
+                </div>
             </div>
+
+            
             
             <h2 class="text-2xl font-semibold mb-6">Nkansah Duodo Boakye</h2>
             </div>
@@ -31,7 +66,7 @@
                     <span class="text-gray-700 text-xs mr-2">Doable Ratings</span>
                     <div class="flex items-center w-full">
                         <!-- Green Bar - Positive -->
-                        <div class="bg-green-500 h-full w-1/3 rounded-full flex items-center justify-center ">
+                        <div class="bg-green-500 h-full w-1/3 rounded-full flex items-center justify-center opacity-15">
                             <span class="text-sm text-gray-100 italic font-semibold">Highly unlikely</span>
                         </div>
                         
@@ -42,7 +77,7 @@
                 </div>
 
                 <!-- Red Bar - Negative -->
-                <div class="bg-red-500 h-full w-1/3 rounded-full flex items-center justify-center">
+                <div class="bg-red-500 h-full w-1/3 rounded-full flex items-center justify-center  opacity-15">
                     <span class="text-sm text-gray-100 italic font-semibold">Very Likely</span>
                 </div>
 
@@ -110,7 +145,24 @@
                         </div>
                     </div>
                 </div>
+
                 
+                <div class="mt-4 border border-gray-300 bg-gray-200 shadow-md text-gray-100 p-4 rounded-md mb-6 divide-y">
+                    <p class="font-bold text-gray-900">HISTORY</p>
+                    <p class="text-gray-900">
+                        a little history goes here
+                    </p>
+                </div>
+                
+                       
+                <div class="mt-4 border border-gray-300 bg-gray-200 shadow-md text-gray-100 p-4 rounded-md mb-6 divide-y">
+                    <p class="font-bold text-gray-900">KNOWN OFFENSES</p>
+                    <p class="text-gray-900">
+                        a little history goes here
+                    </p>
+                </div>
+                
+            
                 <div class="mt-4 border border-gray-300 bg-gray-200 shadow-md p-4 rounded-md mb-6 divide-y">
                     <p class="font-bold text-gray-900">FINGERPRINTS</p>
                     <div class="flex justify-center items-center my-4">
@@ -122,14 +174,13 @@
                         <img src="{% static '/images/default.jpg' %}" alt="Mugshot" class="w-full h-full object-cover rounded-md">
                     </div>
                 </div>
-                
-                
-                <form method="post">
-              
-                    <div class="flex justify-center items-center">
-                        <button type="button" name="create_account" class="bg-blue-600 px-6 py-3 font-semibold text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500">Create Account</button>
-                    </div>
-                </form>
+
+                <div class="flex justify-center items-center">
+                    <button type="button" name="create_account" class="bg-blue-600 px-6 py-3 font-semibold text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500 hover:bg-blue-700">
+                        <i class="ri-printer-fill"></i>
+                        Print</button>
+                </div>                
+
             </div>
         </div>
     </div>

@@ -47,9 +47,19 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError(_("Enter a valid last name."))
         return last_name
     
+    username = forms.CharField(label='Create a User Name', error_messages={'required': 'Please Create a user name'})
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username and not re.match(r'^[a-zA-Z]*$', username):
+            raise forms.ValidationError(_("Enter a valid last name."))
+        if NewOfficerRegistration.objects.filter(username=username).exists():
+            raise forms.ValidationError("User Name Not Available")
+        return username
     
-    email = forms.EmailField(label='Enter Email',max_length=250,  error_messages={'required': 'Email is Required .',
-                                                                                        'invalid': 'Name is Invalid.'})
+    officer_gender = forms.ChoiceField(label='Select Gender',
+                                              choices=NewOfficerRegistration.OFFICER_GENDER_CHOICES)
+    
+    email = forms.EmailField(label='Enter Email', max_length=250,  error_messages={'required': 'Email is Required'})
     def clean_email(self):
         """
         Validate email address and ensure it ends with @gmail.com or @yahoo.com domain.
@@ -67,6 +77,7 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError("Invalid email address.")
         return email
 
+
     phone_contact = forms.CharField(label='Enter Phone Number',max_length=10, error_messages={'required': 'Contact is Required .',
                                                                                                 'invalid': 'Name is Invalid.'})
     def clean_phone_contact(self):
@@ -76,7 +87,6 @@ class officerRegistrationsForms(forms.Form):
         if NewOfficerRegistration.objects.filter(phone_contact=phone_contact).exists():
             raise forms.ValidationError("Number already used")
         return phone_contact
-
 
     officer_address = forms.CharField(max_length=250,
                                       error_messages={'required': 'Address is Required .',
@@ -88,11 +98,12 @@ class officerRegistrationsForms(forms.Form):
             # Additional validation logic if needed
         return officer_address
 
+
     officer_current_rank = forms.ChoiceField(label='Select Current Rank',
                                               choices=NewOfficerRegistration.OFFICER_RANK_CHOICES)
     
-    officer_current_station = forms.CharField(max_length=250)
 
+    officer_current_station = forms.CharField(max_length=250)
     officer_staff_ID = forms.CharField(label='Enter Staff ID', max_length=250)
     def clean_officer_staff_ID(self):
         officer_staff_ID = self.cleaned_data.get('officer_staff_ID')
@@ -102,9 +113,9 @@ class officerRegistrationsForms(forms.Form):
             raise forms.ValidationError('Staff ID alraedy exist')
         return officer_staff_ID
     
+
     officer_qualification = forms.ChoiceField(label='Select Level of Education',
                                               choices=NewOfficerRegistration.EDUCATION_QUALIFICATION_CHOICES)
-
 
     officer_date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     officer_operations_region = forms.CharField(label="Operational Region", max_length=250)
@@ -137,10 +148,12 @@ class officerRegistrationsForms(forms.Form):
         return confirm_password
 
 
+
 class officer_loginForms(forms.Form):
     class Meta:
         model =  OfficerLogin
         fields = '__all__'
 
-    officer_staff_ID = forms.CharField(label='Enter Staff Id', max_length=250,)
-    password = forms.CharField(label="Enter Password",max_length=128, widget=forms.PasswordInput)
+    username = forms.CharField(label='Username', max_length=250)
+    password = forms.CharField(label='Password', max_length=128, widget=forms.PasswordInput)
+

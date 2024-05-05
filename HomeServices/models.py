@@ -1,9 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class NewOfficerRegistration(models.Model):
     first_name = models.CharField(max_length=250)
     middle_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
+    username = models.CharField(max_length=250, unique=True)
+    OFFICER_GENDER_CHOICES_MALE = 'M'
+    OFFICER_GENDER_CHOICES_FEMALE = 'F'
+
+    OFFICER_GENDER_CHOICES = [
+        (OFFICER_GENDER_CHOICES_MALE, 'Male'),
+        (OFFICER_GENDER_CHOICES_FEMALE, 'Female'),
+        
+        ]
+    officer_gender = models.CharField(max_length=250, choices=OFFICER_GENDER_CHOICES, default='')
     email = models.EmailField(unique=True, max_length=250)
     phone_contact = models.IntegerField(unique=True)
     officer_address = models.CharField(max_length=250)
@@ -97,7 +108,7 @@ class NewOfficerRegistration(models.Model):
 
 
 class OfficerLogin(models.Model):
-    officer_staff_ID = models.CharField(unique=True, max_length=250)
+    username = models.CharField(unique=True, max_length=250)
     password = models.CharField(max_length=128)  # Increase max_length for password
-
+   
 
