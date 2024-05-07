@@ -1,38 +1,33 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
-from .officerRegistrationsForms import officerRegistrationsForms
-from .models import new_officer_registrations
+from .models import OfficerLogin
 
-class OfficerRegistrationsViewTestCase(TestCase):
-    def test_officer_registrations_post(self):
-        # Create a POST request
-        data = {
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'email': 'john.doe@example.com',
-            # Add other required form fields
-        }
-        response = self.client.post(reverse('officer_registrations'), data)
-        
-        # Check that the response is a redirect
-        self.assertEqual(response.status_code, 302)
-        
-        # Check that a new officer object is created
-        self.assertTrue(new_officer_registrations.objects.exists())
-        
-        # Check that the user is redirected to the login page
-        self.assertRedirects(response, reverse('officer_login'))
+class OfficerLoginTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('officer_login')
+        self.username = 'test_user'
+        self.password = 'test_password'
+        self.user = OfficerLogin.objects.create(username=self.username, password=self.password)
 
-    def test_officer_registrations_get(self):
-        # Create a GET request
-        response = self.client.get(reverse('officer_registrations'))
-        
-        # Check that the response is successful
+    def test_get_login_page(self):
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        
-        # Check that the correct template is used
-        self.assertTemplateUsed(response, 'officer_registrations.html')
-        
-        # Check that the form is passed to the template context
-        self.assertIsInstance(response.context['form'], officerRegistrationsForms)
+        self.assertTemplateUsed(response, 'officer_login.html')
+
+    def test_valid_login(self):
+        form_data = {'username': self.username, 'password': self.password}
+        response = self.client.post(self.url, data=form_data)
+        self.assertEqual(response.status_code, 302)  # Redirects to another page on successful login
+
+    def test_invalid_login(self):
+        form_data = {'username': 'invalid_username', 'password': 'invalid_password'}
+        response = self.client.post(self.url, data=form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Invalid username or password')
+
+    def test_invalid_form_data(self):
+        form_data = {'username': '', 'password': ''}
+        response = self.client.post(self.url, data=form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Invalid form data')

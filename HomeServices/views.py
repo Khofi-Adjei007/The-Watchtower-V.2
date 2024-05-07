@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
+import logging
 
 
 
@@ -89,9 +90,40 @@ def officer_registrations(request):
 
 
 
-def officer_login(request):
-    return render(request, 'officer_login.html')
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+def officer_login(request):
+    error_message = '' 
+    if request.method == 'POST':
+        form = officer_loginForms(request.POST)
+        
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            # Log the values of username and password
+            logger.info(f"Username: {username}, Password: {password}")
+            
+            # Authenticate user
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                logger.info("User authenticated failed.")
+                login(request, user)
+                logger.info("User authenticated successfully.")
+                return redirect('officer_account_page')
+            else:
+                # Authentication failed
+                error_message = 'Invalid username or password'
+                logger.warning("Authentication failed.")
+        else:
+            error_message = 'Invalid form data'
+            logger.warning("Invalid form data.")
+    else:
+        form = officer_loginForms()
+    return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
 

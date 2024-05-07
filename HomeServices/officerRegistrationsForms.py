@@ -150,10 +150,24 @@ class officerRegistrationsForms(forms.Form):
 
 
 class officer_loginForms(forms.Form):
-    class Meta:
-        model =  OfficerLogin
-        fields = '__all__'
+    username = forms.CharField(label='Create a User Name', error_messages={'required': 'Please Create a user name'})
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username and not re.match(r'^[a-zA-Z]*$', username):
+            raise forms.ValidationError(_("Enter a valid last name."))
+        if NewOfficerRegistration.objects.filter(username=username).exists():
+            raise forms.ValidationError("User Name Not Available")
+        return username
+    
 
-    username = forms.CharField(label='Username', max_length=250)
-    password = forms.CharField(label='Password', max_length=128, widget=forms.PasswordInput)
+    password = forms.CharField(label="Enter Password",max_length=128, widget=forms.PasswordInput)
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        criteria = {'special': set(string.punctuation), 'numeric': set(string.digits), 'uppercase': set(string.ascii_uppercase)}
+        if len(password) < 8:
+            raise forms.ValidationError(_("Password must be at least 8 characters long."))
+        if  any(not any(char in char_set for char in password) for char_type, char_set in criteria.items()):
+            raise forms.ValidationError('Password is weak, Try Again')
+        return password
+
 
