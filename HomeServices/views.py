@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
-import logging
+
 
 
 
@@ -26,7 +26,7 @@ def redirect_with_delay(request, url, delay_seconds=3):
     return render(request, 'redirect_with_delay.html', {'url': url, 'delay_seconds': delay_seconds})
 
 
-# function to register new user
+# New Officers Registration Views
 def officer_registrations(request):
     if request.method == "POST":
         form = officerRegistrationsForms(request.POST, request.FILES)
@@ -89,7 +89,7 @@ def officer_registrations(request):
 
 
 
-
+# officer login views
 def officer_login(request):
     error_message = ''
     if request.method == 'POST':
@@ -99,51 +99,40 @@ def officer_login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             
-            print(f"Username: {username}, Password: {password}")  # Add this line for debugging
-            
             # Authenticate user
             user = authenticate(username=username, password=password)
             print(f"User object: {user}")
             if user is not None:
                 login(request, user)
-                
+                request.session['user_id'] = user.id
+                request.session['username'] = user.username
+                request.session['officer_staff_ID'] = user.newofficerregistration.officer_staff_ID
+                request.session['officer_current_rank'] = user.newofficerregistration.officer_current_rank
+
                 # Redirect to the desired page
                 return redirect('officer_account_page')
             else:
                 error_message = 'Invalid username or password'
-                print("Authentication failed")  # Add this line for debugging
         else:
             # Form is invalid
             error_message = 'Invalid form data'
-            print("Form is invalid")  # Add this line for debugging
+            print("Form is invalid")
     else:
         form = officer_loginForms()
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
+
+# officer logout views
 def officer_logout(request):
     logout(request)
-    # Redirect to a success page, or wherever you want
+    request.session.clear()
     return HttpResponseRedirect(reverse('officer_login'))
 
 
-def my_view(request):
-    # Assuming officer_current_station is retrieved from NewOfficerRegistration model
-    if request.user.is_authenticated:
-        try:
-            new_officer_registration = NewOfficerRegistration.objects.get(user=request.user)
-            officer_current_station = new_officer_registration.officer_current_station  # Assuming this is a field in your model
-        except NewOfficerRegistration.DoesNotExist:
-            officer_current_station = None  # Handle case when user has no associated NewOfficerRegistration
-    else:
-        officer_current_station = None  # Handle case when user is not authenticated
-    
-    context = {'officer_current_station': officer_current_station}
-    return render(request, 'my_template.html', context)
 
 
-
-
+# views to handle report case
 def submissionpdf(request):
     # To Process Case Input
     pass

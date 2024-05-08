@@ -17,7 +17,7 @@
 
 <body>
     <div id="mainbody-container" class="font-sans min-h-screen bg-gray-200 justify-center items-center">
-        <div id="subbody-container">
+       <div id="subbody-container">
             <nav class="bg-gray-900 border-b-4 border-blue-800">
                 <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-16">
@@ -35,9 +35,9 @@
                                 {% endif %}
                             </a>
                         {% endif %}
-                        
-                        
                         </div>
+
+
                         <div class="flex items-center">
                             <!-- Notification Button -->
                             <button type="button" class="ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -90,20 +90,20 @@
                 </div>
             </nav>
 
-            <!-- Navigation Links -->
             <div class="p-3 mb-4 flex justify-center space-x-12 text-gray-900 bg-slate-300">
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-home-7-line mr-2"></i>Home</a>
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-search-eye-fill mr-2"></i>Make a Search</a>
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-planet-line mr-2"></i>Contact Tracking</a>
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-progress-7-fill mr-2"></i></i>Unsolved</a>
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-profile-fill mr-2"></i>Profile</a>
+                <a href="{% url 'officer_account_page' %}" class="font-semibold p-2 flex items-center"><i class="ri-home-7-line mr-2"></i>Home</a>
+                <a href="#" id="link-make-search" class="nav-link font-semibold p-2 flex items-center"><i class="ri-search-eye-fill mr-2"></i>Make a Search</a>
+                <a href="#" id="link-contact-tracking" class="nav-link font-semibold p-2 flex items-center"><i class="ri-planet-line mr-2"></i>Contact Tracking</a>
+                <a href="#" id="link-unsolved" class="nav-link font-semibold p-2 flex items-center"><i class="ri-progress-7-fill mr-2"></i>Unsolved</a>
+                <a href="#" id="link-profiles" class="nav-link font-semibold p-2 flex items-center"><i class="ri-profile-fill mr-2"></i>Profiles</a>
                 <a href="{% url 'officer_logout' %}" class="font-semibold p-2 flex items-center"><i class="ri-logout-circle-line mr-2"></i>Logout</a>
             </div>
+
 
             <!-- Main Content -->
             <div class="flex justify-center mt-8 mx-auto">
                 <div class="w-full lg:w-3/5 mx-auto">
-
+                    
                     <div class="flex flex-col lg:flex-row justify-between">
                         <!-- Left Side Panel -->
                         <div class="w-full lg:w-1/5 pb-3 rounded-lg shadow-md lg:mr-3" style="height: auto;">
@@ -116,16 +116,21 @@
                             <div class="text-center" id="officer_profile_imageHolder">
                                 <div class="h-36 w-44 rounded-md mx-auto mt-2 bg-center bg-cover" style="background-image: url('{% static '/images/img.jpeg' %}');"></div>
                             </div>
+
                             <!-- Officer Information -->
-                            <div class="mx-auto p-2 mt-2 text-center text- ">
-                                <h2 class="text-left ml-5 text-red-600">ID: <span>Username</span></h2>
-                                <h2 class="text-left ml-5 text-red-600">ID: <span>Officer Name</span></h2>
+                            <div class="mx-auto p-4 mt-2 text-center text- ">
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Staff ID: <span>{{ request.session.officer_staff_ID }}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold ">Rank: <span class="text-sm">{{ request.session.officer_current_rank }}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Ratings: <span>{{ request.session.officer_current_ran }}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Cases Covered: <span>{{ request.session.officer_current_ran }}</span></h2>
                                 <h2 class="text-left ml-5 text-red-600">ID: <span>Officer Contact & Address</span></h2>
                             </div>
+
                             <!-- Options Button -->
                             <button type="menu" class="rounded-md bg-blue-500 text-white text-center justify-center ml-4 px-4 py-1 mx-auto">
                                 <h3>Options <i class="ri-arrow-down-s-fill ml-4"></i></h3>
                             </button>
+
                             <!-- Grid Links -->
                             <div class="grid p-2 mt-6 text-center text-blue-500 ">
                                 <a href="" class="text-left ml-5">ID: <span>Username</span></a>
@@ -133,6 +138,8 @@
                                 <a href="" class="text-left ml-5 ">ID: <span>Officer Contact & Address</span></a>
                             </div>
                         </div>
+
+
 
                         <!-- Right Side Panel -->
                         <div class="w-full lg:w-4/5  p-0 rounded-lg  mt-4 lg:mt-0" style="height: auto;">
@@ -145,7 +152,8 @@
                                    <div class="content-4 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">History</div>
                                 </div>
     
-                                <div class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                                <!--New Docket Contents Goes Here-->
+                                <div id="new-docket" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                                     <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                                         <div class="flex items-center space-x-3">
                                             <button type="button" class="p-2 btn-icon">
@@ -171,17 +179,38 @@
                                         <label for="editor" class="sr-only">Register Docket</label>
                                         <textarea name="docket_forms" id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder=" Write Occurence" required></textarea>
                                     </div>
+                                    <div class="bg-blue-500 mt-0">
+                                        <button type="submit" name="submissionpdf" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800">
+                                            Register Docket
+                                        </button>
+                                        </div>
                                 </div>
-                                <div class="bg-blue-500 mt-0">
-                                <button type="submit" name="submissionpdf" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800">
-                                    Register Docket
-                                </button>
+
+                            
+                                   <!--Searching Contents Goes Here-->
+                                <div id="Happenings" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+                                        <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
+                                        </div>
                                 </div>
                                 
+                                    <!--Unsolved Contents Goes Here--> 
+                                <div id="Ethics & Conducts" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+                                        <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
+                                            <p>History</p>
+                                        </div>
+                                </div>
+                                
+
+                                       <!--Profiles Contents Goes Here-->
+                                <div id="History" class="content" style="display: none;">Content for Profiles</div>
+                                   
+
+                                </div>
+
+                             
                                 
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -190,7 +219,49 @@
 
 
 
-    <script src="/static/js/functionalities.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const content1 = document.getElementById("new-docket");
+    const content2 = document.getElementById("Happenings");
+    const content3 = document.getElementById("Ethics & Conducts");
+    const content4 = document.getElementById("content-profiles");
+
+    const tab1 = document.getElementById("content-1");
+    const tab2 = document.getElementById("content-2");
+    const tab3 = document.getElementById("content-3");
+    const tab4 = document.getElementById("content-4");
+
+    tab1.addEventListener("click", function() {
+        showContent(content1);
+        hideContent([content2, content3, content4]);
+    });
+
+    tab2.addEventListener("click", function() {
+        showContent(content2);
+        hideContent([content1, content3, content4]);
+    });
+
+    tab3.addEventListener("click", function() {
+        showContent(content3);
+        hideContent([content1, content2, content4]);
+    });
+
+    tab4.addEventListener("click", function() {
+        showContent(content4);
+        hideContent([content1, content2, content3]);
+    });
+
+    function showContent(content) {
+        content.style.display = "block";
+    }
+
+    function hideContent(contents) {
+        contents.forEach(function(content) {
+            content.style.display = "none";
+        });
+    }
+});
+    </script>
 </body>
 
 </html>
