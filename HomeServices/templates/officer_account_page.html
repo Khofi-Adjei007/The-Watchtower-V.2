@@ -24,8 +24,10 @@
                         <div class="flex items-center">
                             <!-- Company Logo -->
                             <img class="h-8" src="/static/images/download.png" alt="Your Company">
+                            {% if user.is_authenticated%}
                             <!-- Navigation Links -->
-                            <a href="#" class="ml-4 text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Station Id Goes here</a>
+                            <a href="#" class="ml-4 text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{officer_current_station}}</a>
+                            {% endif %}
                         </div>
                         <div class="flex items-center">
                             <!-- Notification Button -->

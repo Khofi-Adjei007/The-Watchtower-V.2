@@ -49,7 +49,7 @@ def officer_registrations(request):
             hashed_password = make_password(password)
 
             # Save data to NewOfficerRegistration table
-            new_officer = NewOfficerRegistration.objects.create(
+            User = NewOfficerRegistration.objects.create(
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
                 last_name=officer_last_name,
@@ -68,10 +68,14 @@ def officer_registrations(request):
                 officer_profile_image=officer_profile_image,
                 password=hashed_password
             ) 
-            new_officer.save()
+            User.save()
 
             # Save Officer_Staff_ID and Password to OfficerLogin table
             OfficerLogin.objects.create(
+                password=hashed_password,
+                username = username,
+            )
+            User.objects.create(
                 password=hashed_password,
                 username = username,
             )
@@ -89,14 +93,11 @@ def officer_registrations(request):
 
 
 
-
-
-import logging
-
-logger = logging.getLogger(__name__)
+from django.contrib import messages
 
 def officer_login(request):
-    error_message = '' 
+    error_message = ''
+    
     if request.method == 'POST':
         form = officer_loginForms(request.POST)
         
@@ -104,27 +105,54 @@ def officer_login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             
-            # Log the values of username and password
-            logger.info(f"Username: {username}, Password: {password}")
+            print(f"Username: {username}, Password: {password}")  # Add this line for debugging
             
             # Authenticate user
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(username=username, password=password)
+            print(f"User object: {user}")
             if user is not None:
-                logger.info("User authenticated failed.")
                 login(request, user)
-                logger.info("User authenticated successfully.")
+                
+                # Redirect to the desired page
                 return redirect('officer_account_page')
             else:
-                # Authentication failed
                 error_message = 'Invalid username or password'
-                logger.warning("Authentication failed.")
+                print("Authentication failed")  # Add this line for debugging
         else:
+            # Form is invalid
             error_message = 'Invalid form data'
-            logger.warning("Invalid form data.")
+            print("Form is invalid")  # Add this line for debugging
     else:
         form = officer_loginForms()
+        
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
+
+# common context
+def get_common_context():
+    # Retrieve all common data that needs to be passed to multiple templates
+    officer_current_station = " Station Name"  # Example value, replace with actual value
+
+    # Create a context dictionary with all common variables
+    common_context = {
+        'officer_current_station': officer_current_station,
+       
+    }
+    return common_context
+
+def my_common_context(request):
+    # Get common context
+    common_context = get_common_context()
+
+    # Add view-specific context
+    additional_context = {
+        # Add view-specific variables here
+    }
+
+    # Merge common context with view-specific context
+    context = {**common_context, **additional_context}
+
+    return render(request, 'officer_account_page.html', context)
 
 
 
