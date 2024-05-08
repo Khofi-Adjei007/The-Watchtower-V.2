@@ -24,6 +24,8 @@ import logging
 def redirect_with_delay(request, url, delay_seconds=3):
     return render(request, 'redirect_with_delay.html', {'url': url, 'delay_seconds': delay_seconds})
 
+from django.contrib.auth.models import User
+
 def officer_registrations(request):
     if request.method == "POST":
         form = officerRegistrationsForms(request.POST, request.FILES)
@@ -49,12 +51,17 @@ def officer_registrations(request):
             hashed_password = make_password(password)
 
             # Save data to NewOfficerRegistration table
-            User = NewOfficerRegistration.objects.create(
+            user, created = User.objects.get_or_create(username=username, email=officer_email)
+            if created:
+                user.set_password(password)
+                user.save()
+
+            new_officer_registration = NewOfficerRegistration.objects.create(
+                user=user,
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
                 last_name=officer_last_name,
-                username = username,
-                officer_gender = officer_gender,
+                officer_gender=officer_gender,
                 email=officer_email,
                 phone_contact=officer_phone_contact,
                 officer_address=officer_address,
@@ -66,18 +73,6 @@ def officer_registrations(request):
                 officer_current_station=officer_current_station,
                 officer_operations_department=officer_operations_department,
                 officer_profile_image=officer_profile_image,
-                password=hashed_password
-            ) 
-            User.save()
-
-            # Save Officer_Staff_ID and Password to OfficerLogin table
-            OfficerLogin.objects.create(
-                password=hashed_password,
-                username = username,
-            )
-            User.objects.create(
-                password=hashed_password,
-                username = username,
             )
 
             # Display success message
@@ -92,8 +87,6 @@ def officer_registrations(request):
 
 
 
-
-from django.contrib import messages
 
 def officer_login(request):
     error_message = ''
@@ -128,31 +121,23 @@ def officer_login(request):
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
-# common context
-def get_common_context():
-    # Retrieve all common data that needs to be passed to multiple templates
-    officer_current_station = " Station Name"  # Example value, replace with actual value
 
-    # Create a context dictionary with all common variables
-    common_context = {
-        'officer_current_station': officer_current_station,
-       
-    }
-    return common_context
 
-def my_common_context(request):
-    # Get common context
-    common_context = get_common_context()
+def my_view(request):
+    # Assuming officer_current_station is retrieved from NewOfficerRegistration model
+    if request.user.is_authenticated:
+        try:
+            new_officer_registration = NewOfficerRegistration.objects.get(user=request.user)
+            officer_current_station = new_officer_registration.officer_current_station  # Assuming this is a field in your model
+        except NewOfficerRegistration.DoesNotExist:
+            officer_current_station = None  # Handle case when user has no associated NewOfficerRegistration
+    else:
+        officer_current_station = None  # Handle case when user is not authenticated
+    
+    context = {'officer_current_station': officer_current_station}
+    return render(request, 'my_template.html', context)
 
-    # Add view-specific context
-    additional_context = {
-        # Add view-specific variables here
-    }
 
-    # Merge common context with view-specific context
-    context = {**common_context, **additional_context}
-
-    return render(request, 'officer_account_page.html', context)
 
 
 
