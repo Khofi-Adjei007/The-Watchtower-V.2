@@ -27,18 +27,15 @@ SECRET_KEY = 'django-insecure-%^)6h(#q#zkyp=cf7ln-d$*$px*6nr!&2(@%i#z68tdkldb4uq
 # Hash passwords before storing them
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
 ]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,7 +67,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware"
 ]
-
 ROOT_URLCONF = 'TheWatchTower.urls'
 
 TEMPLATES = [
@@ -140,10 +136,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# settings.py
-
-# Define the directories where static files will be stored
+# Define the base URL for serving static files
 STATIC_URL = '/static/'
+
+# Define additional directories from which static files will be gathered
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -153,6 +149,3 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# settings.py

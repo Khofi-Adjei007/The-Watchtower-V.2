@@ -1,12 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
 
 class NewOfficerRegistration(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     first_name = models.CharField(max_length=250)
     middle_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
-    username = models.CharField(max_length=250, unique=True)
+    
+    username = models.CharField(max_length=250, unique=True, validators=[MinLengthValidator(1)])
+    def save(self, *args, **kwargs):
+        if not self.username.strip():
+            raise ValueError("Username cannot be empty")
+        super().save(*args, **kwargs)
+
     OFFICER_GENDER_CHOICES_MALE = 'M'
     OFFICER_GENDER_CHOICES_FEMALE = 'F'
 

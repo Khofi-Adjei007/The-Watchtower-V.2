@@ -24,10 +24,19 @@
                         <div class="flex items-center">
                             <!-- Company Logo -->
                             <img class="h-8" src="/static/images/download.png" alt="Your Company">
-                            {% if user.is_authenticated%}
+                            
+                            {% if user.is_authenticated %}
                             <!-- Navigation Links -->
-                            <a href="#" class="ml-4 text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{officer_current_station}}</a>
-                            {% endif %}
+                            <a href="#" class="ml-4 text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                {% if user.newofficerregistration %}
+                                    {{ user.newofficerregistration.officer_current_station }}
+                                {% else %}
+                                    No officer registration found
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                        
+                        
                         </div>
                         <div class="flex items-center">
                             <!-- Notification Button -->
@@ -38,30 +47,44 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                 </svg>
                             </button>
-                            <!-- Profile Button -->
-                            <div class="ml-4 relative">
-                                <button type="button" class="flex items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                    <!-- Profile Image -->
-                                    {% if user.is_authenticated %}
-                                    <img class="h-8 w-8 rounded-full" src="{{ user.profile_picture.url }}" alt="">
+
+                    <!-- Profile Button -->
+                    <div class="ml-4 relative">
+                        <button type="button" class="flex items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <!-- Profile Image -->
+                            {% if user.is_authenticated %}
+                                {% if user.newofficerregistration %}
+                                    {% if user.newofficerregistration.officer_profile_image %}
+                                        <img class="h-8 w-8 rounded-full" src="{{ user.newofficerregistration.officer_profile_image.url }}" alt="">
                                     {% else %}
-                                    <img class="h-8 w-8 rounded-full" src="/static/images/img.jpeg" alt="">
+                                        <!-- Handle the case where the user has no profile image -->
+                                        <span>No profile image found</span>
                                     {% endif %}
 
-                                    
-                                    <!-- Profile Name -->
-                                    {% if user.is_authenticated %}
-                                    <img class="h-8 w-8 rounded-full" srSc="{{ user.profile_picture.url }}" alt="">
-                                    {% else %}
-                                    <span class="text-white font-medium ml-2">YABANI ATINGA</span>
-                                    {% endif %}
+                                {% else %}
+                                    <!-- Handle the case where no NewOfficerRegistration record is associated with the user -->
+                                    <span>No officer registration found</span>
+                                {% endif %}
+                                
+                            {% else %}
+                                <!-- Display a default image if the user is not authenticated -->
+                                <img class="h-8 w-8 rounded-full" src="/static/images/img.jpeg" alt="">
+                            {% endif %}
 
-                                    <!-- Dropdown Icon -->
-                                    <svg class="h-4 w-4 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-                            </div>
+                            <!-- Profile Name -->
+                            {% if user.is_authenticated %}
+                                <span class="text-white font-medium ml-2"> {{ user.newofficerregistration.first_name }} {{ user.newofficerregistration.last_name }}</span>
+                            {% else %}
+                                <span class="text-white font-medium ml-2">Guest</span> <!-- Replace "Guest" with a default name if needed -->
+                            {% endif %}
+
+                            <!-- Dropdown Icon -->
+                            <svg class="h-4 w-4 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+
                         </div>
                     </div>
                 </div>
@@ -74,7 +97,7 @@
                 <a href="" class="font-semibold p-2 flex items-center"><i class="ri-planet-line mr-2"></i>Contact Tracking</a>
                 <a href="" class="font-semibold p-2 flex items-center"><i class="ri-progress-7-fill mr-2"></i></i>Unsolved</a>
                 <a href="" class="font-semibold p-2 flex items-center"><i class="ri-profile-fill mr-2"></i>Profile</a>
-                <a href="" class="font-semibold p-2 flex items-center"><i class="ri-logout-circle-line mr-2"></i>Logout</a>
+                <a href="{% url 'officer_logout' %}" class="font-semibold p-2 flex items-center"><i class="ri-logout-circle-line mr-2"></i>Logout</a>
             </div>
 
             <!-- Main Content -->

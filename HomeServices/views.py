@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
 from django.urls import reverse
@@ -9,7 +10,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from .models import NewOfficerRegistration,OfficerLogin
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 from django.contrib.auth.hashers import make_password, check_password
@@ -24,8 +25,8 @@ import logging
 def redirect_with_delay(request, url, delay_seconds=3):
     return render(request, 'redirect_with_delay.html', {'url': url, 'delay_seconds': delay_seconds})
 
-from django.contrib.auth.models import User
 
+# function to register new user
 def officer_registrations(request):
     if request.method == "POST":
         form = officerRegistrationsForms(request.POST, request.FILES)
@@ -61,6 +62,7 @@ def officer_registrations(request):
                 first_name=officer_first_name,
                 middle_name=officer_middle_name,
                 last_name=officer_last_name,
+                username=username,
                 officer_gender=officer_gender,
                 email=officer_email,
                 phone_contact=officer_phone_contact,
@@ -90,7 +92,6 @@ def officer_registrations(request):
 
 def officer_login(request):
     error_message = ''
-    
     if request.method == 'POST':
         form = officer_loginForms(request.POST)
         
@@ -117,10 +118,13 @@ def officer_login(request):
             print("Form is invalid")  # Add this line for debugging
     else:
         form = officer_loginForms()
-        
     return render(request, 'officer_login.html', {'form': form, 'error_message': error_message})
 
 
+def officer_logout(request):
+    logout(request)
+    # Redirect to a success page, or wherever you want
+    return HttpResponseRedirect(reverse('officer_login'))
 
 
 def my_view(request):
@@ -140,14 +144,16 @@ def my_view(request):
 
 
 
-
-
 def submissionpdf(request):
     # To Process Case Input
     pass
 
 
 # Cookings for the main page
+@login_required
 def officer_account_page(request):
     return render(request, 'officer_account_page.html')
 
+
+def eagle_eye(request):
+    return render(request, 'eagle_eye.html')
