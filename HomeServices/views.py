@@ -15,6 +15,9 @@ from django.contrib.auth.models import User
 from .officerRegistrationsForms import officerRegistrationsForms, officer_loginForms
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
+import json
+from io import BytesIO
+
 
 
 
@@ -134,29 +137,54 @@ def officer_logout(request):
 
 # views to handle report case
 def submissionpdf(request):
-    # Get the content from the POST request
-    content = request.POST.get('content', '')
+    # Decode JSON data from the request body
+    request_data = json.loads(request.body.decode('utf-8'))
+
+    # Get the HTML content from the request data
+    html_content = request_data.get('html_content', '')
+
+    # Get additional information from the request if needed
+    station_id = request_data.get('station_id', '')
+    officer_name = request_data.get('officer_name', '')
+
+    # Get the current date
+    current_date = datetime.now().strftime('%Y-%m-%d')
 
     # Create a PDF document
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="docket.pdf"'
 
     # Create a ReportLab document
-    doc = SimpleDocTemplate(response, pagesize=letter)
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
     styles = getSampleStyleSheet()
     style_heading = styles['Heading1']
     style_paragraph = ParagraphStyle(name='Normal', fontName='Helvetica', fontSize=12, leading=14)
 
     # Add content to the PDF
     paragraphs = []
+    paragraphs.append(Paragraph(f"Police Log - {current_date} - Station ID: {station_id}", style_heading))
+    paragraphs.append(Spacer(1, 12))
+    paragraphs.append(Paragraph(f"Reporting Officer: {officer_name}", style_paragraph))
+    paragraphs.append(Spacer(1, 12))
     paragraphs.append(Paragraph("Docket Content:", style_heading))
     paragraphs.append(Spacer(1, 12))
-    paragraphs.append(Paragraph(content, style_paragraph))
+    paragraphs.append(Paragraph(html_content, style_paragraph))
 
     # Build the PDF document
     doc.build(paragraphs)
 
+    # Get the value of the BytesIO buffer
+    pdf = buffer.getvalue()
+    buffer.close()
+
+    # Set the PDF content in the response
+    response.write(pdf)
+
     return response
+
+
+
 
 # Cookings for the main page
 @login_required
