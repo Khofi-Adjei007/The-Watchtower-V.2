@@ -101,10 +101,10 @@
 
 
             <!-- Main Content -->
-            <div class="flex justify-center mt-8 mx-auto">
+            <div id="maincontent-1"  class="flex justify-center mt-8 mx-auto">
                 <div class="w-full lg:w-3/5 mx-auto">
-                    
                     <div class="flex flex-col lg:flex-row justify-between">
+
                         <!-- Left Side Panel -->
                         <div class="w-full lg:w-1/5 pb-3 rounded-lg shadow-md lg:mr-3" style="height: auto;">
                             <div class="text-center p-2 mb-4 border-b-2 border-gray-500">
@@ -118,13 +118,13 @@
                             </div>
 
                             <!-- Officer Information -->
-                            <div class="mx-auto p-4 mt-2 text-center text- ">
-                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Staff ID: <span>{{ request.session.officer_staff_ID }}</span></h2>
-                                <h2 class="text-left ml-5 text-gray-900 font-semibold ">Rank: <span class="text-sm">{{ request.session.officer_current_rank }}</span></h2>
-                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Ratings: <span>{{ request.session.officer_current_ran }}</span></h2>
-                                <h2 class="text-left ml-5 text-gray-900 font-semibold">Cases Covered: <span>{{ request.session.officer_current_ran }}</span></h2>
-                                <h2 class="text-left ml-5 text-red-600">ID: <span>Officer Contact & Address</span></h2>
+                            <div class="mx-auto p-4 mt-2 text-center text- text text-sm">
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold flex items-center">Staff ID: <span class="text-blue-500">{{ request.session.officer_staff_ID }}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold items-center">Rank: <span class="text-blue-500">{{ request.session.officer_current_rank }}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold flex items-center">Ratings: <span class="text-blue-500">{{ request.session.officer_current_ran}}</span></h2>
+                                <h2 class="text-left ml-5 text-gray-900 font-semibold flex items-center">Cases Covered: <span class="text-blue-500">{{ request.session.officer_current_ran}}</span></h2>
                             </div>
+                            
 
                             <!-- Options Button -->
                             <button type="menu" class="rounded-md bg-blue-500 text-white text-center justify-center ml-4 px-4 py-1 mx-auto">
@@ -145,11 +145,11 @@
                         <div class="w-full lg:w-4/5  p-0 rounded-lg  mt-4 lg:mt-0" style="height: auto;">
                             <div class="">
                                 <!-- Content for the second inner div -->
-                                <div id="button_class" class="cursor-pointer flex flex-col lg:flex-row justify-center items-stretch font-bold bg-gray-900 rounded-md divide-x">  
-                                    <div id="content-1" class=" bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">New Docket</div>
-                                    <div id="content-2" class=" bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Happenings</div>
-                                    <div class="content-3 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Ethics & Conducts</div>
-                                   <div class="content-4 bg-gray-800 text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">History</div>
+                                <div id="button_class" class="cursor-pointer flex flex-col lg:flex-row justify-center items-stretch font-bold bg-gray-900 divide-x">  
+                                    <div id="content-1" class="text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">New Docket</div>
+                                    <div id="content-2" class="text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Happenings</div>
+                                    <div id="content-3" class="text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">Ethics & Conducts</div>
+                                   <div id="content-4" class="text-white p-4 hover:border-b-2 hover:animate-pulse flex-grow lg:w-1/4">History</div>
                                 </div>
     
                                 <!--New Docket Contents Goes Here-->
@@ -157,74 +157,223 @@
                                     <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                                         <div class="flex items-center space-x-3">
                                             <button type="button" class="p-2 btn-icon">
-                                                <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 12 20">
-                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"/>
-                                                </svg>
-                                                <span class="sr-only">Attach file</span>
+                                                <i class="ri-attachment-fill text-gray-100"></i>
                                             </button>
                                             <!-- Add other buttons here -->
                                         </div>
-                                        <button type="button" data-tooltip-target="tooltip-fullscreen" class="p-2 btn-icon">
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 19 19">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 1h5m0 0v5m0-5-5 5M1.979 6V1H7m0 16.042H1.979V12M18 12v5.042h-5M13 12l5 5M2 1l5 5m0 6-5 5"/>
-                                            </svg>
-                                            <span class="sr-only">Full screen</span>
-                                        </button>
-                                        <div id="tooltip-fullscreen" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                            Show full screen
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
-                                        </div>
                                     </div>
-                                    <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
+
+                                <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
                                         <label for="editor" class="sr-only">Register Docket</label>
                                         <textarea name="docket_forms" id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder=" Write Occurence" required></textarea>
-                                    </div>
-                                    <div class="bg-blue-500 mt-0">
-                                        <button type="submit" name="submissionpdf" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-gray-800">
-                                            Register Docket
-                                        </button>
-                                        </div>
+                                </div>
+                                   
+                                  <!-- Add button group with appropriate styling -->
+                                  <div class="flex justify-between">
+                                    <button type="button" id="drop-docket" class="flex-grow inline-block  bg-blue-500 px-6 pb-2 pt-2.5 text-xs font-medium text-white shadow-success-3 transition duration-150 ease-in-out hover:bg-blue-600 hover:shadow-blue-400 focus:bg-blue-600 focus:shadow-blue-400 focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-blue-400 motion-reduce:transition-none dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                                        DROP DOCKET
+                                    </button>
+                                    <button type="button"  id="preview" class="flex-grow inline-block  bg-yellow-500 px-6 pb-2 pt-2.5 text-xs font-medium text-white shadow-danger-3 transition duration-150 ease-in-out hover:bg-yellow-600 hover:shadow-yellow-400 focus:bg-yellow-600 focus:shadow-yellow-400 focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-yellow-400 motion-reduce:transition-none  dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                                        PREVIEW
+                                    </button>
+                                    <button type="button" id="register-docket" class="flex-grow inline-block bg-green-500 px-6 pb-2 pt-2.5 text-xs text-gray-900 font-semibold shadow-info-3 transition duration-150 ease-in-out hover:bg-green-600 hover:shadow-green-400 focus:bg-green-600 focus:shadow-green-400 focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-green-400 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                                        REGISTER DOCKET
+                                    </button>
+                                </div>
+                                
+                                
+                                
                                 </div>
 
                             
-                                   <!--Searching Contents Goes Here-->
-                                <div id="Happenings" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
-                                        <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
+                                   <!--Happening Contents Goes Here-->
+                                   <div id="Happenings" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+                                    <div class="p-4 bg-white w-full rounded-b-lg dark:bg-gray-800">
+                                        <!-- Information Card -->
+
+                                       <a href="#" class="divide-y">
+                                        <div class="flex items-center">
+                                            <div class="w-16 h-16">
+                                            <img src="/static/images/download.png" alt="Image" class="w-1/10">
+                                            </div>
+                                            <!-- Information -->
+                                            <div class="ml-4 w-3/4">
+                                                <!-- Header Highlight -->
+                                                <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
+                                                <!-- Bit of Information -->
+                                                <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                                    standard dummy text ever since the 1500s,
+                                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                                                    remaining essentially unchanged. </p>
+                                            </div>
                                         </div>
+                                        </a> 
+
+                                        
+                                       <a href="#">
+                                        <div class="flex items-center mt-4">
+                                            <div class="w-16 h-16">
+                                            <img src="/static/images/download.png" alt="Image" class="w-1/10">
+                                            </div>
+                                            <!-- Information -->
+                                            <div class="ml-4 w-3/4">
+                                                <!-- Header Highlight -->
+                                                <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
+                                                <!-- Bit of Information -->
+                                                <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                                    standard dummy text ever since the 1500s,
+                                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                                                    remaining essentially unchanged. </p>
+                                            </div>
+                                        </div>
+                                        </a> 
+
+                                    </div>
                                 </div>
                                 
+
                                     <!--Unsolved Contents Goes Here--> 
                                 <div id="Ethics & Conducts" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
                                         <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
-                                            <p>History</p>
+                                            <p>Ethics and Conducts</p>
                                         </div>
                                 </div>
                                 
 
                                        <!--Profiles Contents Goes Here-->
-                                <div id="History" class="content" style="display: none;">Content for Profiles</div>
+                                <div id="History" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+                                    <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
+                                        <p>History of activity</p>
+                                    </div>
+                                </div>
                                    
 
                                 </div>
-
-                             
-                                
                             </div>
                         </div>
                     </div>
+            </div>
+
+                    <!-- Make a search content here -->
+            <div id="make_a_search" style="display: none;" class="min-h-screen flex justify-center items-center bg-cover bg-center bg-gray-900 p-3">
+                
+            <style>
+                /* Custom CSS for setting the width to 40% */
+                .custom-width {
+                    width: 40%;
+                }
+            </style>
+            
+                <!-- Container for the search box and results -->
+                <div class="bg-white mx-auto rounded-lg shadow-lg custom-width p-8">
+                    <!-- Header with logo and search bar -->
+                    <div class="flex items-center mb-8">
+                        <!-- Logo -->
+                        <img class="h-8 mr-2" src="/static/images/download.png" alt="Your Company">
+                        <!-- Search bar -->
+                        <input type="text" class="flex-grow border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500" placeholder="Search...">
+                        <!-- Search button -->
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md ml-2">Search</button>
+                    </div>
+
+                    <!-- Content for showing search results -->
+                    <div>
+                        <!-- Example search result -->
+                        <div class="Right flex items-center space-x-4 mt-4">
+                            <label class="inline-flex items-center mr-3">
+                                <span class="ml-2 mr-3 text-sm text-gray-700 font-bold text-blue-500 ">Enable All </span>
+                            </label>
+
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-blue-500 ml-4" checked>
+                                <span class="ml-2 text-sm text-gray-700">Images</span>
+                            </label>
+
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="ml-2 text-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">Files</span>
+                            </label>
+
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class=" ml-2 form-checkbox text-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">Locations</span>
+                            </label>
+                        </div>
+
+                        <div class="bg-gray-200 p-4 mb-4 mt-4 rounded-md">
+                            <h3 class="font-semibold text-lg mb-2">Search Result Title</h3>
+                            <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
+
+                            <h3 class="font-semibold text-lg mt-4">Search Result Title</h3>
+                            <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
+
+                        </div>
+                        <!-- Add more search results here -->
+                    </div>
                 </div>
             </div>
+
         </div>
+    </div>
     </div>
 
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const makeSearchLink = document.getElementById("link-make-search");
+    const contactTrackingLink = document.getElementById("link-contact-tracking");
+    const unsolvedLink = document.getElementById("link-unsolved");
+    const profilesLink = document.getElementById("link-profiles");
+
+    const makeSearchContent = document.getElementById("make_a_search");
+    const contactTrackingContent = document.getElementById("content-contact-tracking");
+    const unsolvedContent = document.getElementById("content-unsolved");
+    const profilesContent = document.getElementById("content-profiles");
+    const mainContent = document.getElementById("maincontent-1");
+
+    makeSearchLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        showContent(makeSearchContent);
+        hideContent([mainContent, contactTrackingContent, unsolvedContent, profilesContent]);
+    });
+
+    contactTrackingLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        showContent(contactTrackingContent);
+        hideContent([mainContent, makeSearchContent, unsolvedContent, profilesContent]);
+    });
+
+    unsolvedLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        showContent(unsolvedContent);
+        hideContent([mainContent, makeSearchContent, contactTrackingContent, profilesContent]);
+    });
+
+    profilesLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        showContent(profilesContent);
+        hideContent([mainContent, makeSearchContent, contactTrackingContent, unsolvedContent]);
+    });
+
+    function showContent(content) {
+        content.style.display = "block";
+    }
+
+    function hideContent(contents) {
+        contents.forEach(function(content) {
+            content.style.display = "none";
+        });
+    }
+});
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
     const content1 = document.getElementById("new-docket");
     const content2 = document.getElementById("Happenings");
     const content3 = document.getElementById("Ethics & Conducts");
-    const content4 = document.getElementById("content-profiles");
+    const content4 = document.getElementById("History");
 
     const tab1 = document.getElementById("content-1");
     const tab2 = document.getElementById("content-2");
@@ -261,6 +410,9 @@
         });
     }
 });
+
+
+
     </script>
 </body>
 

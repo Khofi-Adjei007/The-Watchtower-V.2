@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from .models import NewOfficerRegistration,OfficerLogin
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -134,9 +134,29 @@ def officer_logout(request):
 
 # views to handle report case
 def submissionpdf(request):
-    # To Process Case Input
-    pass
+    # Get the content from the POST request
+    content = request.POST.get('content', '')
 
+    # Create a PDF document
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="docket.pdf"'
+
+    # Create a ReportLab document
+    doc = SimpleDocTemplate(response, pagesize=letter)
+    styles = getSampleStyleSheet()
+    style_heading = styles['Heading1']
+    style_paragraph = ParagraphStyle(name='Normal', fontName='Helvetica', fontSize=12, leading=14)
+
+    # Add content to the PDF
+    paragraphs = []
+    paragraphs.append(Paragraph("Docket Content:", style_heading))
+    paragraphs.append(Spacer(1, 12))
+    paragraphs.append(Paragraph(content, style_paragraph))
+
+    # Build the PDF document
+    doc.build(paragraphs)
+
+    return response
 
 # Cookings for the main page
 @login_required
