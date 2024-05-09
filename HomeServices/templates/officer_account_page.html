@@ -101,25 +101,25 @@
 
 
             <!-- Main Content -->
-            <div id="maincontent-1"  class="flex justify-center mt-8 mx-auto">
+<div id="maincontent-1"  class="flex justify-center mt-8 mx-auto">
+<div class="w-full lg:w-4/5 mx-auto">
 
-                <div class="w-full lg:w-4/5 mx-auto">
-                    <div class="flex flex-col lg:flex-row justify-between">
+<div class="flex flex-col lg:flex-row justify-between">
 <!-- Left Side Panel -->
 <div class="w-full lg:w-1/5 pb-3 rounded-lg shadow-md lg:mr-3 flex flex-col" style="height: auto;">
-    <div class="text-center p-2 mb-4 border-b-2 border-gray-500">
-        <h1 class="font-semibold "><i class="ri-profile-fill mr-2"></i>OFFICER SERVICES</h1>
-        <div class="w-full bg-green-600"></div>
-    </div>
+<div class="text-center p-2 mb-4 border-b-2 border-gray-500">
+ <h1 class="font-semibold "><i class="ri-profile-fill mr-2"></i>OFFICER SERVICES</h1>
+ <div class="w-full bg-green-600"></div>
+ </div>
 
-    <!-- Officer Profile Image -->
-    <div class="text-center">
-        <div class="h-36 w-44 rounded-md mx-auto mt-2 bg-center bg-cover" style="background-image: url('{% static '/images/img.jpeg' %}');"></div>
-    </div>
+<!-- Officer Profile Image -->
+<div class="text-center">
+<div class="h-36 w-44 rounded-md mx-auto mt-2 bg-center bg-cover" style="background-image: url('{% static '/images/img.jpeg' %}');"></div>
+</div>
 
-    <!-- Officer Information -->
+<!-- Officer Information -->
     <div class="flex-grow mx-auto p-4 text-center text-sm w-full">
-        <h2 class="text-left ml-3 text-gray-900 font-semibold flex items-center">Staff ID: <span class="text-blue-500">{{ request.session.officer_staff_ID }}</span></h2>
+        <h2 class="text-left ml-3 text-gray-900 font-semibold flex items-center">Staff ID: <span class="text-blue-500 right">{{ request.session.officer_staff_ID }}</span></h2>
         <h2 class="text-left ml-3 text-gray-900 font-semibold items-center">Rank: <span class="text-blue-500">{{ request.session.officer_current_rank }}</span></h2>
         <h2 class="text-left ml-3 text-gray-900 font-semibold flex items-center">Ratings: <span class="text-blue-500">{{ request.session.officer_current_ran}}</span></h2>
         <h2 class="text-left ml-3 text-gray-900 font-semibold flex items-center">Cases Covered: <span class="text-blue-500">{{ request.session.officer_current_ran}}</span></h2>
@@ -140,7 +140,7 @@
 
 
 
-                   <!-- Right Side Panel -->
+    <!-- Right Side Panel -->
 <form id="docket-form" method="POST" action="{% url 'submissionpdf' %}" enctype="multipart/form-data" class="w-full lg:w-4/5 p-0 rounded-lg mt-4 lg:mt-0">
     {% csrf_token %}
 
@@ -185,156 +185,136 @@
             </div> 
         </div>
     </div>
-</form>
 
-                                   <!--Happening Contents Goes Here-->
-                                   <div id="Happenings" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
-                                    <div class="p-4 bg-white w-full rounded-b-lg dark:bg-gray-800">
-                                        <!-- Information Card -->
-
-                                       <a href="#" class="divide-y">
-                                        <div class="flex items-center">
-                                            <div class="w-16 h-16">
-                                            <img src="/static/images/download.png" alt="Image" class="w-1/10">
-                                            </div>
-                                            <!-- Information -->
-                                            <div class="ml-4 w-3/4">
-                                                <!-- Header Highlight -->
-                                                <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
-                                                <!-- Bit of Information -->
-                                                <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                                    standard dummy text ever since the 1500s,
-                                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-                                                    remaining essentially unchanged. </p>
-                                            </div>
-                                        </div>
-                                        </a> 
-
-                                        
-                                       <a href="#">
-                                        <div class="flex items-center mt-4">
-                                            <div class="w-16 h-16">
-                                            <img src="/static/images/download.png" alt="Image" class="w-1/10">
-                                            </div>
-                                            <!-- Information -->
-                                            <div class="ml-4 w-3/4">
-                                                <!-- Header Highlight -->
-                                                <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
-                                                <!-- Bit of Information -->
-                                                <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                                    standard dummy text ever since the 1500s,
-                                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-                                                    remaining essentially unchanged. </p>
-                                            </div>
-                                        </div>
-                                        </a> 
-
-                                    </div>
-                                </div>
-                                
-
-                                    <!--Unsolved Contents Goes Here--> 
-                                <div id="Ethics & Conducts" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
-                                        <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
-                                            <p>Ethics and Conducts</p>
-                                        </div>
-                                </div>
-                                
-
-                                       <!--Profiles Contents Goes Here-->
-                                <div id="History" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
-                                    <div class="px-2 py-4 bg-white  w-full rounded-b-lg dark:bg-gray-800">
-                                        <p>History of activity</p>
-                                    </div>
-                                </div>
-                                   
-
+    <div id="Happenings" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+        <div class="p-4 bg-white w-full rounded-b-lg dark:bg-gray-800">
+            <!-- Information Card 1 -->
+            <a href="#" class="divide-y">
+                <div class="flex items-center">
+                    <div class="w-16 h-16">
+                        <img src="/static/images/download.png" alt="Image" class="w-1/10">
                     </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-            </div>
-
-                    <!-- Make a search content here -->
-            <div id="make_a_search" style="display: none;" class="min-h-screen flex justify-center items-center bg-cover bg-center bg-gray-900 p-3">
-                
-            <style>
-                /* Custom CSS for setting the width to 40% */
-                .custom-width {
-                    width: 40%;
-                }
-            </style>
-            
-                <!-- Container for the search box and results -->
-                <div class="bg-white mx-auto rounded-lg shadow-lg custom-width p-8">
-                    <!-- Header with logo and search bar -->
-                    <div class="flex items-center mb-8">
-                        <!-- Logo -->
-                        <img class="h-8 mr-2" src="/static/images/download.png" alt="Your Company">
-                        <!-- Search bar -->
-                        <input type="text" class="flex-grow border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500" placeholder="Search...">
-                        <!-- Search button -->
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md ml-2">Search</button>
-                    </div>
-
-                    <!-- Content for showing search results -->
-                    <div>
-                        <!-- Example search result -->
-                        <div class="Right flex items-center space-x-4 mt-4">
-                            <label class="inline-flex items-center mr-3">
-                                <span class="ml-2 mr-3 text-sm text-gray-700 font-bold text-blue-500 ">Enable All </span>
-                            </label>
-
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox text-blue-500 ml-4" checked>
-                                <span class="ml-2 text-sm text-gray-700">Images</span>
-                            </label>
-
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="ml-2 text-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Files</span>
-                            </label>
-
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class=" ml-2 form-checkbox text-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Locations</span>
-                            </label>
-                        </div>
-
-                        <div class="bg-gray-200 p-4 mb-4 mt-4 rounded-md">
-                            <h3 class="font-semibold text-lg mb-2">Search Result Title</h3>
-                            <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
-
-                            <h3 class="font-semibold text-lg mt-4">Search Result Title</h3>
-                            <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
-
-                        </div>
-                        <!-- Add more search results here -->
+                    <!-- Information -->
+                    <div class="ml-4 w-3/4">
+                        <!-- Header Highlight -->
+                        <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
+                        <!-- Bit of Information -->
+                        <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
                     </div>
                 </div>
-            </div>
-
+            </a> 
+    
+            <!-- Information Card 2 -->
+            <a href="#">
+                <div class="flex items-center mt-4">
+                    <div class="w-16 h-16">
+                        <img src="/static/images/download.png" alt="Image" class="w-1/10">
+                    </div>
+                    <!-- Information -->
+                    <div class="ml-4 w-3/4">
+                        <!-- Header Highlight -->
+                        <h2 class="text-xl font-semibold text-blue-500">Header Highlight</h2>
+                        <!-- Bit of Information -->
+                        <p class="text-gray-100 mt-1 text-wrap text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+                    </div>
+                </div>
+            </a> 
         </div>
     </div>
-    </div>
 
+<!-- Ethics & Conducts -->
+<div id="Ethics & Conducts" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+    <div class="px-2 py-4 bg-white w-full rounded-b-lg dark:bg-gray-800">
+        <p>Ethics and Conducts</p>
+    </div>
+</div>
+
+<!-- History -->
+<div id="History" class="w-full mb-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600" style="display: none;">
+    <div class="px-2 py-4 bg-white w-full rounded-b-lg dark:bg-gray-800">
+        <p>History of activity</p>
+    </div>
+</div>
+</form>
+
+
+
+
+
+<style>
+    /* Optional: You can add these styles in your main Tailwind CSS file or a separate CSS file */
+    .pdf-preview-overlay {
+        display: none;
+    }
+</style>
+
+<div id="pdf-preview-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-xl w-3/5 h-4/5">
+        <object id="pdf-preview-object" type="application/pdf" width="100%" height="100%"  oncontextmenu="return false;"></object>
+        <button id="close-pdf-preview" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Close Preview</button>
+    </div>
+</div>
+
+</div>
+<!-- Make a search content -->
+<div id="make_a_search" style="display: none;" class="min-h-screen flex justify-center items-center bg-cover bg-center bg-gray-900 p-3">
     <style>
-        /* Optional: You can add these styles in your main Tailwind CSS file or a separate CSS file */
-        .pdf-preview-overlay {
-            display: none;
+        /* Custom CSS for setting the width to 40% */
+        .custom-width {
+            width: 40%;
         }
     </style>
     
-    <div id="pdf-preview-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
-        <div class="bg-white p-6 rounded-lg shadow-xl w-3/5 h-4/5">
-            <object id="pdf-preview-object" type="application/pdf" width="100%" height="100%"  oncontextmenu="return false;"></object>
-            <button id="close-pdf-preview" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Close Preview</button>
+    <!-- Container for the search box and results -->
+    <div class="bg-white mx-auto rounded-lg shadow-lg custom-width p-8">
+        <!-- Header with logo and search bar -->
+        <div class="flex items-center mb-8">
+            <!-- Logo -->
+            <img class="h-8 mr-2" src="/static/images/download.png" alt="Your Company">
+            <!-- Search bar -->
+            <input type="text" class="flex-grow border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500" placeholder="Search...">
+            <!-- Search button -->
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-md ml-2">Search</button>
+        </div>
+
+        <!-- Content for showing search results -->
+        <div>
+            <!-- Example search result -->
+            <div class="Right flex items-center space-x-4 mt-4">
+                <label class="inline-flex items-center mr-3">
+                    <span class="ml-2 mr-3 text-sm text-gray-700 font-bold text-blue-500 ">Enable All </span>
+                </label>
+
+                <label class="inline-flex items-center">
+                    <input type="checkbox" class="form-checkbox text-blue-500 ml-4" checked>
+                    <span class="ml-2 text-sm text-gray-700">Images</span>
+                </label>
+
+                <label class="inline-flex items-center">
+                    <input type="checkbox" class="ml-2 text-blue-500">
+                    <span class="ml-2 text-sm text-gray-700">Files</span>
+                </label>
+
+                <label class="inline-flex items-center">
+                    <input type="checkbox" class=" ml-2 form-checkbox text-blue-500">
+                    <span class="ml-2 text-sm text-gray-700">Locations</span>
+                </label>
+            </div>
+
+            <div class="bg-gray-200 p-4 mb-4 mt-4 rounded-md">
+                <h3 class="font-semibold text-lg mb-2">Search Result Title</h3>
+                <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
+
+                <h3 class="font-semibold text-lg mt-4">Search Result Title</h3>
+                <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget odio eu arcu fermentum aliquet.</p>
+            </div>
+            <!-- Add more search results here -->
         </div>
     </div>
-    >
-    
+</div>
+
+
+
 
 
 <script>
@@ -446,7 +426,6 @@ window.addEventListener('click', function(event) {
 
 
 
-
 document.addEventListener("DOMContentLoaded", function() {
     const makeSearchLink = document.getElementById("link-make-search");
     const contactTrackingLink = document.getElementById("link-contact-tracking");
@@ -496,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     const content1 = document.getElementById("new-docket");
     const content2 = document.getElementById("Happenings");
     const content3 = document.getElementById("Ethics & Conducts");
@@ -538,9 +517,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-
-
-    </script>
+</script>
 </body>
 
 </html>
